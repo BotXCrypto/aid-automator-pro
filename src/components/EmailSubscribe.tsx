@@ -30,17 +30,17 @@ export const EmailSubscribe = () => {
           Get daily updates on new scholarships matching your profile. Join 50,000+ students already subscribed.
         </p>
         
-        <form onSubmit={handleSubmit} className="max-w-md mx-auto">
-          <div className="flex gap-2 p-2 bg-white rounded-xl shadow-strong">
+        <form onSubmit={handleSubmit} className="max-w-lg mx-auto">
+          <div className="flex gap-3 p-3 bg-white rounded-2xl shadow-strong">
             <Input
               type="email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              placeholder="Enter your email"
+              placeholder="Enter your email address"
               required
               className="flex-1 border-0 text-lg focus-visible:ring-0 focus-visible:ring-offset-0"
             />
-            <Button type="submit" size="lg" className="bg-secondary hover:bg-secondary/90">
+            <Button type="submit" size="lg" className="bg-gradient-accent hover:bg-gradient-hover transition-all px-8 rounded-xl">
               Subscribe
             </Button>
           </div>

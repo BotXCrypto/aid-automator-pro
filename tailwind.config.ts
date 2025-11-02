@@ -52,11 +52,17 @@ export default {
         'gradient-hero': 'var(--gradient-hero)',
         'gradient-card': 'var(--gradient-card)',
         'gradient-accent': 'var(--gradient-accent)',
+        'gradient-hover': 'var(--gradient-hover)',
       },
       boxShadow: {
         'soft': 'var(--shadow-soft)',
         'medium': 'var(--shadow-medium)',
         'strong': 'var(--shadow-strong)',
+        'hover': 'var(--shadow-hover)',
+      },
+      fontFamily: {
+        'sans': ['Inter', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
+        'heading': ['Poppins', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'sans-serif'],
       },
       transitionTimingFunction: {
         'smooth': 'var(--transition-smooth)',

@@ -1,15 +1,13 @@
 import { useState, useMemo } from "react";
 import { Navbar } from "@/components/Navbar";
-import { Hero } from "@/components/Hero";
 import { FilterBar } from "@/components/FilterBar";
 import { ScholarshipCard } from "@/components/ScholarshipCard";
-import { EmailSubscribe } from "@/components/EmailSubscribe";
 import { Footer } from "@/components/Footer";
 import { mockScholarships } from "@/data/mockScholarships";
-import { Button } from "@/components/ui/button";
-import { Sparkles } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Search } from "lucide-react";
 
-const Index = () => {
+export default function Scholarships() {
   const [searchQuery, setSearchQuery] = useState("");
   const [countryFilter, setCountryFilter] = useState("all");
   const [degreeFilter, setDegreeFilter] = useState("all");
@@ -33,43 +31,42 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      <Hero onSearch={setSearchQuery} />
       
       <section className="py-12 bg-muted/30">
         <div className="container px-4 mx-auto">
+          <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
+            All Scholarships
+          </h1>
+
+          <div className="mb-8">
+            <div className="relative max-w-2xl">
+              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-5 h-5" />
+              <Input
+                type="text"
+                placeholder="Search scholarships..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="pl-10 h-12 text-lg rounded-2xl"
+              />
+            </div>
+          </div>
+
           <FilterBar
             onCountryChange={setCountryFilter}
             onDegreeChange={setDegreeFilter}
             onFundingChange={setFundingFilter}
           />
           
-          {/* Featured/Sponsored Section */}
-          <div className="bg-gradient-accent rounded-2xl p-8 mb-8 text-center shadow-medium">
-            <Sparkles className="w-12 h-12 mx-auto mb-4 text-white" />
-            <h3 className="text-2xl font-heading font-bold text-white mb-2">
-              Sponsored Scholarships
-            </h3>
-            <p className="text-white/90 mb-4">
-              Premium scholarship opportunities highlighted for you
+          <div className="mt-8 mb-6">
+            <p className="text-muted-foreground">
+              Showing {filteredScholarships.length} scholarship{filteredScholarships.length !== 1 ? 's' : ''}
             </p>
-            <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20">
-              View Sponsored
-            </Button>
           </div>
 
-          {/* AdSense Placeholder */}
+          {/* AdSense Placeholder - Top Banner */}
           <div className="bg-muted rounded-2xl p-6 text-center mb-8">
             <p className="text-muted-foreground text-sm">Advertisement</p>
             <p className="text-muted-foreground mt-2">[Google AdSense Placeholder - 970x90]</p>
-          </div>
-
-          <div className="mt-8 mb-6">
-            <h2 className="text-3xl font-heading font-bold text-foreground">
-              {searchQuery ? `Search Results for "${searchQuery}"` : 'Featured Scholarships'}
-            </h2>
-            <p className="text-muted-foreground mt-2">
-              Showing {filteredScholarships.length} scholarship{filteredScholarships.length !== 1 ? 's' : ''}
-            </p>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -87,11 +84,8 @@ const Index = () => {
           )}
         </div>
       </section>
-      
-      <EmailSubscribe />
+
       <Footer />
     </div>
   );
-};
-
-export default Index;
+}

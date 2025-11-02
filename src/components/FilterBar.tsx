@@ -9,8 +9,8 @@ interface FilterBarProps {
 
 export const FilterBar = ({ onCountryChange, onDegreeChange, onFundingChange }: FilterBarProps) => {
   return (
-    <div className="bg-card border border-border rounded-xl p-6 shadow-soft">
-      <h3 className="text-lg font-semibold mb-4 text-foreground">Filter Scholarships</h3>
+    <div className="bg-card border border-border rounded-2xl p-6 shadow-medium">
+      <h3 className="text-lg font-heading font-semibold mb-4 text-foreground">Filter Scholarships</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div className="space-y-2">
           <Label htmlFor="country">Country</Label>
