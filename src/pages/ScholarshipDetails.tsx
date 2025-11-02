@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { ScholarshipCard } from "@/components/ScholarshipCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { mockScholarships } from "@/data/mockScholarships";
@@ -21,6 +22,11 @@ import {
 export default function ScholarshipDetails() {
   const { id } = useParams();
   const scholarship = mockScholarships.find(s => s.id === id);
+  
+  // Get similar scholarships (exclude current one)
+  const similarScholarships = mockScholarships
+    .filter(s => s.id !== id && (s.country === scholarship?.country || s.degree === scholarship?.degree))
+    .slice(0, 3);
 
   if (!scholarship) {
     return (
@@ -185,6 +191,18 @@ export default function ScholarshipDetails() {
             <p className="text-muted-foreground text-sm">Advertisement</p>
             <p className="text-muted-foreground mt-2">[Google AdSense Placeholder - 728x90]</p>
           </div>
+
+          {/* Similar Scholarships Section */}
+          {similarScholarships.length > 0 && (
+            <div className="mt-12">
+              <h2 className="text-3xl font-heading font-bold text-foreground mb-6">Similar Scholarships</h2>
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                {similarScholarships.map((similarScholarship) => (
+                  <ScholarshipCard key={similarScholarship.id} scholarship={similarScholarship} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       </article>
 

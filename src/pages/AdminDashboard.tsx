@@ -26,7 +26,7 @@ export default function AdminDashboard() {
             <h1 className="text-4xl font-heading font-bold text-foreground mb-2">
               Admin Dashboard
             </h1>
-            <p className="text-muted-foreground">Manage scholarships and automation features</p>
+            <p className="text-muted-foreground">Manage scholarships, education news, and AI automation features</p>
           </div>
 
           {/* AI Integration Placeholders */}

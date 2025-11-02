@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { Facebook, Twitter, Instagram, Linkedin } from "lucide-react";
 
 export const Footer = () => {
@@ -6,45 +7,48 @@ export const Footer = () => {
       <div className="container px-4 py-12 mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-bold text-primary mb-4">ScholarHub</h3>
-            <p className="text-muted-foreground">
-              Your trusted source for finding fully funded scholarships worldwide.
+            <h3 className="text-xl font-bold text-primary mb-4">NextScholar</h3>
+            <p className="text-muted-foreground mb-4">
+              Your trusted AI-ready platform for finding scholarships, study opportunities, and education insights worldwide.
+            </p>
+            <p className="text-sm text-muted-foreground italic">
+              Smart Scholarships & Education Insights
             </p>
           </div>
           
           <div>
             <h4 className="font-semibold mb-4 text-foreground">Quick Links</h4>
             <ul className="space-y-2 text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">All Scholarships</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Featured</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Deadline Soon</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Submit Scholarship</a></li>
+              <li><Link to="/scholarships" className="hover:text-primary transition-colors">All Scholarships</Link></li>
+              <li><Link to="/news" className="hover:text-primary transition-colors">Education News</Link></li>
+              <li><Link to="/scholarships" className="hover:text-primary transition-colors">Deadline Soon</Link></li>
+              <li><Link to="/submit" className="hover:text-primary transition-colors">Submit Scholarship</Link></li>
             </ul>
           </div>
           
           <div>
             <h4 className="font-semibold mb-4 text-foreground">Resources</h4>
             <ul className="space-y-2 text-muted-foreground">
-              <li><a href="#" className="hover:text-primary transition-colors">Application Tips</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Study Guides</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">Blog</a></li>
-              <li><a href="#" className="hover:text-primary transition-colors">FAQs</a></li>
+              <li><Link to="/about" className="hover:text-primary transition-colors">About Us</Link></li>
+              <li><Link to="/news" className="hover:text-primary transition-colors">Application Tips</Link></li>
+              <li><Link to="/news" className="hover:text-primary transition-colors">Study Guides</Link></li>
+              <li><Link to="/contact" className="hover:text-primary transition-colors">Contact</Link></li>
             </ul>
           </div>
           
           <div>
             <h4 className="font-semibold mb-4 text-foreground">Follow Us</h4>
             <div className="flex gap-4">
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Facebook">
                 <Facebook className="w-6 h-6" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Twitter">
                 <Twitter className="w-6 h-6" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="Instagram">
                 <Instagram className="w-6 h-6" />
               </a>
-              <a href="#" className="text-muted-foreground hover:text-primary transition-colors">
+              <a href="#" className="text-muted-foreground hover:text-primary transition-colors" aria-label="LinkedIn">
                 <Linkedin className="w-6 h-6" />
               </a>
             </div>
@@ -52,7 +56,7 @@ export const Footer = () => {
         </div>
         
         <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
-          <p>&copy; 2025 ScholarHub. All rights reserved.</p>
+          <p>&copy; 2025 NextScholar. All rights reserved.</p>
         </div>
       </div>
     </footer>

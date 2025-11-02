@@ -1,4 +1,5 @@
 import { Search } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-image.jpg";
@@ -28,10 +29,10 @@ export const Hero = ({ onSearch }: HeroProps) => {
       
       <div className="container relative z-10 px-4 py-24 mx-auto text-center">
         <h1 className="mb-6 text-5xl font-heading font-bold text-white md:text-6xl lg:text-7xl animate-fade-in">
-          Find Fully Funded Scholarships Worldwide
+          Find Scholarships, Study Opportunities & Education News
         </h1>
         <p className="mb-10 text-xl text-white/95 md:text-2xl max-w-3xl mx-auto animate-fade-in font-medium" style={{ animationDelay: '0.1s' }}>
-          Discover scholarships for Bachelor's, Master's, and PhD programs • Updated Daily • 100% Free
+          Discover fully funded scholarships for Bachelor's, Master's, and PhD programs • Updated Daily • Smart AI-powered insights
         </p>
         
         <form onSubmit={handleSubmit} className="max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
@@ -50,12 +51,16 @@ export const Hero = ({ onSearch }: HeroProps) => {
         </form>
 
         <div className="mt-6 flex flex-wrap justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-          <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 rounded-xl">
-            Subscribe for Updates
-          </Button>
-          <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 rounded-xl">
-            Submit a Scholarship
-          </Button>
+          <a href="#newsletter">
+            <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 rounded-xl">
+              Subscribe for Updates
+            </Button>
+          </a>
+          <Link to="/submit">
+            <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 rounded-xl">
+              Submit a Scholarship
+            </Button>
+          </Link>
         </div>
         
         <div className="mt-8 flex flex-wrap justify-center gap-4 text-white/90 animate-fade-in" style={{ animationDelay: '0.3s' }}>

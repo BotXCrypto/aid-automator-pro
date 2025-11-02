@@ -20,7 +20,7 @@ export const EmailSubscribe = () => {
   };
 
   return (
-    <section className="py-20 bg-gradient-hero">
+    <section id="newsletter" className="py-20 bg-gradient-hero">
       <div className="container px-4 mx-auto text-center">
         <Mail className="w-16 h-16 mx-auto mb-6 text-white" />
         <h2 className="text-4xl font-bold text-white mb-4">

@@ -35,7 +35,7 @@ export default function Contact() {
             <div className="bg-card rounded-2xl shadow-medium p-6">
               <Mail className="w-10 h-10 text-primary mb-3" />
               <h3 className="text-lg font-heading font-semibold text-foreground mb-2">Email Us</h3>
-              <p className="text-muted-foreground">info@scholarhub.com</p>
+              <p className="text-muted-foreground">info@nextscholar.com</p>
             </div>
 
             <div className="bg-card rounded-2xl shadow-medium p-6">
@@ -75,7 +75,7 @@ export default function Contact() {
                 />
               </div>
 
-              <Button type="submit" size="lg" className="w-full bg-gradient-accent hover:bg-gradient-hover transition-all">
+              <Button type="submit" size="lg" className="w-full bg-gradient-accent hover:bg-gradient-hover transition-all rounded-xl">
                 <Send className="w-5 h-5 mr-2" />
                 Send Message
               </Button>
