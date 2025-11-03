@@ -14,11 +14,11 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/hooks/useAuth";
 import { supabase } from "@/integrations/supabase/client";
-import {
-  Upload,
-  Bot,
-  CheckCircle,
-  XCircle,
+import { 
+  Upload, 
+  Bot, 
+  CheckCircle, 
+  XCircle, 
   Clock,
   MessageSquare,
   FileText,
@@ -310,14 +310,14 @@ export default function AdminDashboard() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-
+      
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-4xl font-heading font-bold text-foreground mb-2">
-                Admin Dashboard
-              </h1>
+            <h1 className="text-4xl font-heading font-bold text-foreground mb-2">
+              Admin Dashboard
+            </h1>
               <p className="text-muted-foreground">
                 Manage scholarships, internships, and submissions
               </p>
@@ -382,61 +382,61 @@ export default function AdminDashboard() {
                     <p className="text-3xl font-bold text-foreground">{stats.internships}</p>
                   </CardContent>
                 </Card>
-              </div>
+          </div>
 
-              {/* AI Integration Placeholders */}
+          {/* AI Integration Placeholders */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <Card>
                   <CardHeader>
-                    <MessageSquare className="w-12 h-12 text-primary mb-4" />
+              <MessageSquare className="w-12 h-12 text-primary mb-4" />
                     <CardTitle>Import from WhatsApp</CardTitle>
                     <CardDescription>
-                      Automatically extract scholarship data from WhatsApp groups
+                Automatically extract scholarship data from WhatsApp groups
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Button className="w-full" disabled>
-                      <Upload className="w-4 h-4 mr-2" />
-                      Connect WhatsApp
-                    </Button>
-                    <Badge className="mt-3 bg-secondary">Coming Soon</Badge>
+                <Upload className="w-4 h-4 mr-2" />
+                Connect WhatsApp
+              </Button>
+              <Badge className="mt-3 bg-secondary">Coming Soon</Badge>
                   </CardContent>
-                </Card>
+            </Card>
 
                 <Card>
                   <CardHeader>
-                    <Send className="w-12 h-12 text-secondary mb-4" />
+              <Send className="w-12 h-12 text-secondary mb-4" />
                     <CardTitle>Import from Telegram</CardTitle>
                     <CardDescription>
-                      Pull scholarship posts from Telegram channels automatically
+                Pull scholarship posts from Telegram channels automatically
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Button className="w-full" disabled>
-                      <Upload className="w-4 h-4 mr-2" />
-                      Connect Telegram
-                    </Button>
-                    <Badge className="mt-3 bg-secondary">Coming Soon</Badge>
+                <Upload className="w-4 h-4 mr-2" />
+                Connect Telegram
+              </Button>
+              <Badge className="mt-3 bg-secondary">Coming Soon</Badge>
                   </CardContent>
-                </Card>
+            </Card>
 
                 <Card>
                   <CardHeader>
-                    <Bot className="w-12 h-12 text-primary mb-4" />
+              <Bot className="w-12 h-12 text-primary mb-4" />
                     <CardTitle>AI Extract Info</CardTitle>
                     <CardDescription>
-                      Use AI to extract and format scholarship details
+                Use AI to extract and format scholarship details
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <Button className="w-full" disabled>
-                      <Bot className="w-4 h-4 mr-2" />
-                      Enable AI Extraction
-                    </Button>
-                    <Badge className="mt-3 bg-secondary">Coming Soon</Badge>
+                <Bot className="w-4 h-4 mr-2" />
+                Enable AI Extraction
+              </Button>
+              <Badge className="mt-3 bg-secondary">Coming Soon</Badge>
                   </CardContent>
-                </Card>
-              </div>
+            </Card>
+          </div>
             </TabsContent>
 
             <TabsContent value="posts">
@@ -498,7 +498,7 @@ export default function AdminDashboard() {
                                 <Trash2 className="w-4 h-4 mr-1" />
                                 Delete
                               </Button>
-                            </div>
+            </div>
                           </TableCell>
                         </TableRow>
                       ))}
@@ -634,8 +634,8 @@ export default function AdminDashboard() {
                             setNewPost({ ...newPost, image_url: e.target.value })
                           }
                         />
-                      </div>
                     </div>
+                  </div>
                     <div className="space-y-2">
                       <Label>Description</Label>
                       <Textarea
@@ -685,30 +685,30 @@ export default function AdminDashboard() {
                             {new Date(submission.created_at).toLocaleDateString()}
                           </TableCell>
                           <TableCell>
-                            <div className="flex gap-2">
+                  <div className="flex gap-2">
                               <Button
                                 size="sm"
                                 onClick={() => handleApproveSubmission(submission)}
                               >
-                                <CheckCircle className="w-4 h-4 mr-1" />
-                                Approve
-                              </Button>
+                      <CheckCircle className="w-4 h-4 mr-1" />
+                      Approve
+                    </Button>
                               <Button
                                 size="sm"
                                 variant="destructive"
                                 onClick={() => handleRejectSubmission(submission.id)}
                               >
-                                <XCircle className="w-4 h-4 mr-1" />
-                                Reject
-                              </Button>
-                            </div>
+                      <XCircle className="w-4 h-4 mr-1" />
+                      Reject
+                    </Button>
+                  </div>
                           </TableCell>
                         </TableRow>
                       ))}
                     </TableBody>
                   </Table>
                 </CardContent>
-              </Card>
+            </Card>
             </TabsContent>
           </Tabs>
         </div>
