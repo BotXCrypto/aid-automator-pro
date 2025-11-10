@@ -43,18 +43,14 @@ export function useAuth() {
 
   const checkAdminRole = async (userId: string) => {
     try {
-      // For development: allow all authenticated users to be admins
-      // For production, uncomment the following lines to check the user_roles table:
-      // const { data, error } = await supabase
-      //   .from("user_roles")
-      //   .select("role")
-      //   .eq("user_id", userId)
-      //   .eq("role", "admin")
-      //   .maybeSingle();
-      // setIsAdmin(!!data && !error);
+      const { data, error } = await supabase
+        .from("user_roles")
+        .select("role")
+        .eq("user_id", userId)
+        .eq("role", "admin")
+        .maybeSingle();
       
-      // Temporary: All logged in users are admins
-      setIsAdmin(true);
+      setIsAdmin(!!data && !error);
     } catch (error) {
       console.error("Error checking admin role:", error);
       setIsAdmin(false);
