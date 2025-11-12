@@ -29,6 +29,7 @@ import {
   LogOut,
   BarChart3,
   Loader2,
+  Sparkles,
 } from "lucide-react";
 
 type Post = {
@@ -95,6 +96,11 @@ export default function AdminDashboard() {
     link: "",
     university: "",
   });
+
+  // AI Extraction state
+  const [aiText, setAiText] = useState("");
+  const [aiExtracting, setAiExtracting] = useState(false);
+  const [extractedData, setExtractedData] = useState<any>(null);
 
   useEffect(() => {
     if (!authLoading && !user) {
@@ -299,6 +305,49 @@ export default function AdminDashboard() {
     navigate("/auth");
   };
 
+  const handleAIExtract = async () => {
+    if (!aiText.trim()) {
+      toast({
+        title: "Error",
+        description: "Please enter some text to extract",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setAiExtracting(true);
+    setExtractedData(null);
+
+    try {
+      const { data, error } = await supabase.functions.invoke("ai-extract", {
+        body: { text: aiText },
+      });
+
+      if (error) throw error;
+
+      if (data.error) {
+        throw new Error(data.error);
+      }
+
+      setExtractedData(data.data);
+      toast({
+        title: "Success",
+        description: data.message || "Data extracted successfully and saved for review",
+      });
+      
+      // Refresh submissions to show the new AI-extracted entry
+      fetchData();
+    } catch (error: any) {
+      toast({
+        title: "Extraction Failed",
+        description: error.message || "Failed to extract scholarship data",
+        variant: "destructive",
+      });
+    } finally {
+      setAiExtracting(false);
+    }
+  };
+
   if (authLoading || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -341,6 +390,10 @@ export default function AdminDashboard() {
               <TabsTrigger value="add">
                 <Upload className="w-4 h-4 mr-2" />
                 Add New
+              </TabsTrigger>
+              <TabsTrigger value="ai-extract">
+                <Sparkles className="w-4 h-4 mr-2" />
+                AI Extract
               </TabsTrigger>
               <TabsTrigger value="submissions">
                 <Clock className="w-4 h-4 mr-2" />
@@ -650,6 +703,121 @@ export default function AdminDashboard() {
                       Create Post
                     </Button>
                   </form>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="ai-extract">
+              <Card>
+                <CardHeader>
+                  <CardTitle>AI Data Extraction</CardTitle>
+                  <CardDescription>
+                    Paste raw text from WhatsApp, Telegram, or any source to extract structured scholarship data
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="ai-text">Raw Text</Label>
+                    <Textarea
+                      id="ai-text"
+                      rows={8}
+                      placeholder="Paste scholarship text here...&#10;&#10;Example:&#10;Fully Funded MBA Scholarship at Harvard University, USA. Deadline: 15 April 2025. Apply now: https://harvard.edu/mba"
+                      value={aiText}
+                      onChange={(e) => setAiText(e.target.value)}
+                      className="font-mono text-sm"
+                    />
+                  </div>
+
+                  <Button 
+                    onClick={handleAIExtract} 
+                    disabled={aiExtracting || !aiText.trim()}
+                    className="w-full"
+                  >
+                    {aiExtracting ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Extracting...
+                      </>
+                    ) : (
+                      <>
+                        <Sparkles className="w-4 h-4 mr-2" />
+                        Extract with AI
+                      </>
+                    )}
+                  </Button>
+
+                  {extractedData && (
+                    <Card className="border-primary bg-primary/5">
+                      <CardHeader>
+                        <CardTitle className="text-lg flex items-center gap-2">
+                          <CheckCircle className="w-5 h-5 text-primary" />
+                          Extracted Data
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent className="space-y-3">
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-sm">
+                          {extractedData.title && (
+                            <div>
+                              <span className="font-semibold">Title:</span>{" "}
+                              {extractedData.title}
+                            </div>
+                          )}
+                          {extractedData.university && (
+                            <div>
+                              <span className="font-semibold">University:</span>{" "}
+                              {extractedData.university}
+                            </div>
+                          )}
+                          {extractedData.country && (
+                            <div>
+                              <span className="font-semibold">Country:</span>{" "}
+                              {extractedData.country}
+                            </div>
+                          )}
+                          {extractedData.degree && (
+                            <div>
+                              <span className="font-semibold">Degree:</span>{" "}
+                              {extractedData.degree}
+                            </div>
+                          )}
+                          {extractedData.funding && (
+                            <div>
+                              <span className="font-semibold">Funding:</span>{" "}
+                              {extractedData.funding}
+                            </div>
+                          )}
+                          {extractedData.deadline && (
+                            <div>
+                              <span className="font-semibold">Deadline:</span>{" "}
+                              {extractedData.deadline}
+                            </div>
+                          )}
+                        </div>
+                        {extractedData.description && (
+                          <div className="text-sm">
+                            <span className="font-semibold">Description:</span>{" "}
+                            {extractedData.description}
+                          </div>
+                        )}
+                        {extractedData.link && (
+                          <div className="text-sm">
+                            <span className="font-semibold">Link:</span>{" "}
+                            <a 
+                              href={extractedData.link} 
+                              target="_blank" 
+                              rel="noopener noreferrer"
+                              className="text-primary hover:underline"
+                            >
+                              {extractedData.link}
+                            </a>
+                          </div>
+                        )}
+                        <Badge className="bg-secondary">
+                          Saved to Submissions for Review
+                        </Badge>
+                      </CardContent>
+                    </Card>
+                  )}
                 </CardContent>
               </Card>
             </TabsContent>
