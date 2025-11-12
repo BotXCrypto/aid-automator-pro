@@ -102,6 +102,10 @@ export default function AdminDashboard() {
   const [aiExtracting, setAiExtracting] = useState(false);
   const [extractedData, setExtractedData] = useState<any>(null);
 
+  // File upload state
+  const [uploadFile, setUploadFile] = useState<File | null>(null);
+  const [uploading, setUploading] = useState(false);
+
   useEffect(() => {
     if (!authLoading && !user) {
       navigate("/auth");
@@ -348,6 +352,59 @@ export default function AdminDashboard() {
     }
   };
 
+  const handleFileUpload = async () => {
+    if (!uploadFile) {
+      toast({
+        title: "Error",
+        description: "Please select a file to upload",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    setUploading(true);
+
+    try {
+      const formData = new FormData();
+      formData.append('file', uploadFile);
+
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      const response = await fetch(
+        `${import.meta.env.VITE_SUPABASE_URL}/functions/v1/smart-upload`,
+        {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${session?.access_token}`,
+          },
+          body: formData,
+        }
+      );
+
+      const result = await response.json();
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Upload failed');
+      }
+
+      toast({
+        title: "Success",
+        description: result.message || `Uploaded ${result.inserted} items successfully`,
+      });
+
+      setUploadFile(null);
+      fetchData();
+    } catch (error: any) {
+      toast({
+        title: "Upload Failed",
+        description: error.message || "Failed to upload file",
+        variant: "destructive",
+      });
+    } finally {
+      setUploading(false);
+    }
+  };
+
   if (authLoading || loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -390,6 +447,10 @@ export default function AdminDashboard() {
               <TabsTrigger value="add">
                 <Upload className="w-4 h-4 mr-2" />
                 Add New
+              </TabsTrigger>
+              <TabsTrigger value="upload">
+                <Upload className="w-4 h-4 mr-2" />
+                Upload Files
               </TabsTrigger>
               <TabsTrigger value="ai-extract">
                 <Sparkles className="w-4 h-4 mr-2" />
@@ -703,6 +764,77 @@ export default function AdminDashboard() {
                       Create Post
                     </Button>
                   </form>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="upload">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Upload Files</CardTitle>
+                  <CardDescription>
+                    Upload Excel, PDF, or DOC files to automatically extract scholarship data
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="file-upload">Select File</Label>
+                    <Input
+                      id="file-upload"
+                      type="file"
+                      accept=".xlsx,.xls,.pdf,.doc,.docx"
+                      onChange={(e) => setUploadFile(e.target.files?.[0] || null)}
+                      disabled={uploading}
+                    />
+                    <p className="text-sm text-muted-foreground">
+                      Supported formats: Excel (.xlsx, .xls), PDF (.pdf), Word (.doc, .docx)
+                    </p>
+                  </div>
+
+                  {uploadFile && (
+                    <Card className="border-primary bg-primary/5">
+                      <CardContent className="pt-4">
+                        <div className="flex items-center gap-2">
+                          <FileText className="w-4 h-4 text-primary" />
+                          <span className="text-sm font-medium">{uploadFile.name}</span>
+                          <span className="text-sm text-muted-foreground">
+                            ({(uploadFile.size / 1024).toFixed(2)} KB)
+                          </span>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  <Button
+                    onClick={handleFileUpload}
+                    disabled={!uploadFile || uploading}
+                    className="w-full"
+                  >
+                    {uploading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                        Processing...
+                      </>
+                    ) : (
+                      <>
+                        <Upload className="w-4 h-4 mr-2" />
+                        Upload & Extract Data
+                      </>
+                    )}
+                  </Button>
+
+                  <div className="rounded-lg border p-4 bg-muted/50">
+                    <h4 className="font-semibold mb-2 flex items-center gap-2">
+                      <Bot className="w-4 h-4" />
+                      How it works
+                    </h4>
+                    <ul className="text-sm space-y-1 text-muted-foreground list-disc list-inside">
+                      <li>Excel files: Data extracted directly from columns</li>
+                      <li>PDF/DOC files: AI reads and extracts scholarship info</li>
+                      <li>All data saved to Submissions for review before publishing</li>
+                      <li>Automatically categorizes scholarships, internships, and news</li>
+                    </ul>
+                  </div>
                 </CardContent>
               </Card>
             </TabsContent>
