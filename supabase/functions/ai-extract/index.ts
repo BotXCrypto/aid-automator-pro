@@ -82,8 +82,8 @@ Extract the following fields and return them as a JSON object:
 - title (string): The scholarship name/title
 - university (string): The university or institution
 - country (string): The country
-- degree (string): Degree level (e.g., "bachelors", "masters", "phd")
-- funding (string): Funding type (e.g., "fully_funded", "partial", "tuition_waiver")
+- degree (string): Degree level (use: "bachelor", "master", "phd", "undergraduate", or "postgraduate")
+- funding (string): Funding type (use: "fully_funded", "partially_funded", or "not_funded")
 - deadline (string): Application deadline in YYYY-MM-DD format if possible
 - description (string): Brief description
 - link (string): Application link or website URL
@@ -156,13 +156,35 @@ If a field cannot be determined, use null. Return ONLY the JSON object, no addit
     const extractedData = JSON.parse(toolCall.function.arguments);
     console.log('Extracted data:', extractedData);
 
+    // Normalize enum values to match database schema
+    const normalizeDegree = (degree: string | null) => {
+      if (!degree) return null;
+      const normalized = degree.toLowerCase().trim();
+      // Map common variations to valid enum values
+      if (normalized === 'masters' || normalized === 'master') return 'master';
+      if (normalized === 'bachelors' || normalized === 'bachelor') return 'bachelor';
+      if (normalized === 'phd' || normalized === 'doctorate') return 'phd';
+      if (normalized === 'undergraduate') return 'undergraduate';
+      if (normalized === 'postgraduate') return 'postgraduate';
+      return normalized; // Return as-is if no mapping found
+    };
+
+    const normalizeFunding = (funding: string | null) => {
+      if (!funding) return null;
+      const normalized = funding.toLowerCase().trim();
+      if (normalized === 'fully_funded' || normalized === 'full' || normalized === 'fully funded') return 'fully_funded';
+      if (normalized === 'partially_funded' || normalized === 'partial' || normalized === 'partially funded') return 'partially_funded';
+      if (normalized === 'not_funded' || normalized === 'none' || normalized === 'not funded') return 'not_funded';
+      return normalized;
+    };
+
     // Store in user_submissions table for admin review
     const submissionData = {
       title: extractedData.title,
       university: extractedData.university || null,
       country: extractedData.country || null,
-      degree: extractedData.degree || null,
-      funding: extractedData.funding || null,
+      degree: normalizeDegree(extractedData.degree),
+      funding: normalizeFunding(extractedData.funding),
       deadline: extractedData.deadline || null,
       description: extractedData.description || null,
       link: extractedData.link || null,
