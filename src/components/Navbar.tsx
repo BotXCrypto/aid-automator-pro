@@ -23,10 +23,10 @@ export const Navbar = () => {
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           <Link to="/" className="flex items-center gap-2 group">
-            <Newspaper className="w-8 h-8 text-primary group-hover:text-secondary transition-colors" />
+            <Newspaper className="w-8 h-8 text-primary group-hover:text-secondary transition-all duration-300 group-hover:rotate-12 group-hover:scale-110" />
             <div className="flex flex-col">
-            <span className="text-2xl font-heading font-bold text-primary leading-tight">NextScholar</span>
-            <span className="text-[10px] text-muted-foreground font-medium leading-tight -mt-1">Smart Scholarships & Education Insights</span>
+            <span className="text-2xl font-heading font-bold text-primary leading-tight group-hover:tracking-wide transition-all duration-300">NextScholar</span>
+            <span className="text-[10px] text-muted-foreground font-medium leading-tight -mt-1 group-hover:text-primary transition-colors">Smart Scholarships & Education Insights</span>
             </div>
           </Link>
 
@@ -36,15 +36,15 @@ export const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-medium transition-colors hover:text-primary ${
-                  isActive(link.path) ? "text-primary" : "text-muted-foreground"
+                className={`font-medium transition-all duration-300 hover:text-primary hover:scale-110 relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${
+                  isActive(link.path) ? "text-primary after:scale-x-100" : "text-muted-foreground"
                 }`}
               >
                 {link.label}
               </Link>
             ))}
             <a href="#newsletter">
-              <Button className="bg-gradient-accent hover:bg-gradient-hover transition-all rounded-xl">
+              <Button className="bg-gradient-accent hover:bg-gradient-hover transition-all duration-300 rounded-xl hover:scale-105 hover:shadow-lg">
                 Subscribe
               </Button>
             </a>
@@ -52,31 +52,32 @@ export const Navbar = () => {
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden text-foreground"
+            className="lg:hidden text-foreground hover:text-primary transition-all duration-300 hover:scale-110"
             onClick={() => setIsOpen(!isOpen)}
             aria-label="Toggle menu"
           >
-            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {isOpen ? <X className="w-6 h-6 animate-scale-in" /> : <Menu className="w-6 h-6 animate-scale-in" />}
           </button>
         </div>
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="lg:hidden py-4 border-t border-border">
-            {navLinks.map((link) => (
+          <div className="lg:hidden py-4 border-t border-border animate-slide-in-right">
+            {navLinks.map((link, index) => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`block py-2 font-medium transition-colors hover:text-primary ${
+                className={`block py-2 font-medium transition-all duration-300 hover:text-primary hover:translate-x-2 animate-fade-in ${
                   isActive(link.path) ? "text-primary" : "text-muted-foreground"
                 }`}
+                style={{ animationDelay: `${index * 0.05}s` }}
                 onClick={() => setIsOpen(false)}
               >
                 {link.label}
               </Link>
             ))}
             <a href="#newsletter">
-              <Button className="w-full mt-4 bg-gradient-accent hover:bg-gradient-hover transition-all rounded-xl">
+              <Button className="w-full mt-4 bg-gradient-accent hover:bg-gradient-hover transition-all duration-300 rounded-xl hover:scale-105 animate-fade-in" style={{ animationDelay: '0.3s' }}>
                 Subscribe
               </Button>
             </a>

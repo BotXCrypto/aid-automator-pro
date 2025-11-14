@@ -30,54 +30,56 @@ export const ScholarshipCard = ({ scholarship }: ScholarshipCardProps) => {
   };
 
   return (
-    <Card className="group relative overflow-hidden transition-all duration-300 hover:shadow-hover hover:-translate-y-2 bg-card border-border rounded-2xl">
-      <div className="p-6">
+    <Card className="group relative overflow-hidden transition-all duration-500 hover:shadow-hover hover:-translate-y-2 bg-card border-border rounded-2xl animate-fade-in hover:border-primary/30">
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 to-secondary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+      
+      <div className="relative p-6">
         <div className="flex flex-wrap gap-2 mb-3">
           {scholarship.featured && (
-            <Badge className="bg-secondary text-secondary-foreground">Featured</Badge>
+            <Badge className="bg-secondary text-secondary-foreground animate-scale-in hover:scale-110 transition-transform">Featured</Badge>
           )}
           {!scholarship.featured && isDeadlineSoon() && (
-            <Badge variant="destructive">Deadline Soon</Badge>
+            <Badge variant="destructive" className="animate-scale-in hover:scale-110 transition-transform">Deadline Soon</Badge>
           )}
-          <Badge className="bg-primary text-primary-foreground">New</Badge>
+          <Badge className="bg-primary text-primary-foreground animate-scale-in hover:scale-110 transition-transform">New</Badge>
         </div>
 
         <div className="mb-3">
           <Link to={`/scholarship/${scholarship.id}`}>
-            <h3 className="text-xl font-heading font-bold text-foreground mb-1 group-hover:text-primary transition-colors cursor-pointer">
+            <h3 className="text-xl font-heading font-bold text-foreground mb-1 group-hover:text-primary transition-all duration-300 cursor-pointer hover:translate-x-1">
               {scholarship.title}
             </h3>
           </Link>
-          <p className="text-sm font-medium text-muted-foreground">{scholarship.university}</p>
+          <p className="text-sm font-medium text-muted-foreground transition-colors group-hover:text-foreground">{scholarship.university}</p>
         </div>
 
-        <p className="text-sm text-muted-foreground mb-4 line-clamp-2">
+        <p className="text-sm text-muted-foreground mb-4 line-clamp-2 transition-colors group-hover:text-foreground/80">
           {scholarship.description}
         </p>
 
         <div className="space-y-2 mb-4">
-          <div className="flex items-center text-sm text-foreground">
-            <MapPin className="w-4 h-4 mr-2 text-primary" />
+          <div className="flex items-center text-sm text-foreground group/item hover:translate-x-1 transition-transform">
+            <MapPin className="w-4 h-4 mr-2 text-primary group-hover/item:scale-110 transition-transform" />
             {scholarship.country}
           </div>
-          <div className="flex items-center text-sm text-foreground">
-            <GraduationCap className="w-4 h-4 mr-2 text-primary" />
+          <div className="flex items-center text-sm text-foreground group/item hover:translate-x-1 transition-transform">
+            <GraduationCap className="w-4 h-4 mr-2 text-primary group-hover/item:scale-110 transition-transform" />
             {scholarship.degree}
           </div>
-          <div className="flex items-center text-sm text-foreground">
-            <DollarSign className="w-4 h-4 mr-2 text-secondary" />
+          <div className="flex items-center text-sm text-foreground group/item hover:translate-x-1 transition-transform">
+            <DollarSign className="w-4 h-4 mr-2 text-secondary group-hover/item:scale-110 transition-transform" />
             {scholarship.funding}
           </div>
-          <div className="flex items-center text-sm text-foreground">
-            <Calendar className="w-4 h-4 mr-2 text-destructive" />
+          <div className="flex items-center text-sm text-foreground group/item hover:translate-x-1 transition-transform">
+            <Calendar className="w-4 h-4 mr-2 text-destructive group-hover/item:scale-110 transition-transform" />
             Deadline: {new Date(scholarship.deadline).toLocaleDateString()}
           </div>
         </div>
 
         <Link to={`/scholarship/${scholarship.id}`}>
-          <Button className="w-full bg-gradient-accent hover:bg-gradient-hover transition-all rounded-xl">
-            View Details
-            <ExternalLink className="w-4 h-4 ml-2" />
+          <Button className="w-full bg-gradient-accent hover:bg-gradient-hover transition-all duration-300 rounded-xl hover:scale-105 hover:shadow-lg group/btn">
+            <span className="group-hover/btn:translate-x-1 transition-transform inline-block">View Details</span>
+            <ExternalLink className="w-4 h-4 ml-2 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-0.5 transition-transform" />
           </Button>
         </Link>
       </div>

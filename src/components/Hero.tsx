@@ -36,44 +36,44 @@ export const Hero = ({ onSearch }: HeroProps) => {
         </p>
         
         <form onSubmit={handleSubmit} className="max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
-          <div className="flex gap-3 p-3 bg-white rounded-2xl shadow-strong">
+          <div className="flex gap-3 p-3 bg-white rounded-2xl shadow-strong hover:shadow-hover transition-all duration-300 hover:scale-[1.02]">
             <Input
               type="text"
               name="search"
               placeholder="Search by country, university, or degree level..."
-              className="flex-1 border-0 text-lg focus-visible:ring-0 focus-visible:ring-offset-0 font-sans"
+              className="flex-1 border-0 text-lg focus-visible:ring-0 focus-visible:ring-offset-0 font-sans transition-all"
             />
-            <Button type="submit" size="lg" className="bg-gradient-accent hover:bg-gradient-hover transition-all px-8 rounded-xl">
-              <Search className="w-5 h-5 mr-2" />
-              Search
+            <Button type="submit" size="lg" className="bg-gradient-accent hover:bg-gradient-hover transition-all duration-300 px-8 rounded-xl hover:scale-105 hover:shadow-lg group">
+              <Search className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+              <span className="group-hover:tracking-wide transition-all">Search</span>
             </Button>
           </div>
         </form>
 
         <div className="mt-6 flex flex-wrap justify-center gap-4 animate-fade-in" style={{ animationDelay: '0.3s' }}>
           <a href="#newsletter">
-            <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 rounded-xl">
+            <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
               Subscribe for Updates
             </Button>
           </a>
           <Link to="/submit">
-            <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 rounded-xl">
+            <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
               Submit a Scholarship
             </Button>
           </Link>
         </div>
         
-        <div className="mt-8 flex flex-wrap justify-center gap-4 text-white/90 animate-fade-in" style={{ animationDelay: '0.3s' }}>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-secondary"></div>
+        <div className="mt-8 flex flex-wrap justify-center gap-4 text-white/90 animate-fade-in" style={{ animationDelay: '0.4s' }}>
+          <div className="flex items-center gap-2 hover:scale-110 transition-transform cursor-default">
+            <div className="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
             <span>500+ Scholarships</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-secondary"></div>
+          <div className="flex items-center gap-2 hover:scale-110 transition-transform cursor-default">
+            <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" style={{ animationDelay: '0.2s' }}></div>
             <span>Updated Daily</span>
           </div>
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-secondary"></div>
+          <div className="flex items-center gap-2 hover:scale-110 transition-transform cursor-default">
+            <div className="w-2 h-2 rounded-full bg-secondary animate-pulse" style={{ animationDelay: '0.4s' }}></div>
             <span>100% Free</span>
           </div>
         </div>
