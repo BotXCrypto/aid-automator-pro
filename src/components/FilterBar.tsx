@@ -9,13 +9,13 @@ interface FilterBarProps {
 
 export const FilterBar = ({ onCountryChange, onDegreeChange, onFundingChange }: FilterBarProps) => {
   return (
-    <div className="bg-card border border-border rounded-2xl p-6 shadow-medium">
-      <h3 className="text-lg font-heading font-semibold mb-4 text-foreground">Filter Scholarships</h3>
+    <div className="bg-card border border-border rounded-2xl p-6 shadow-medium animate-fade-in hover:shadow-hover transition-all duration-500 hover:border-primary/30">
+      <h3 className="text-lg font-heading font-semibold mb-4 text-foreground hover:text-primary transition-colors">Filter Scholarships</h3>
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div className="space-y-2">
-          <Label htmlFor="country">Country</Label>
+        <div className="space-y-2 group animate-fade-in">
+          <Label htmlFor="country" className="group-hover:text-primary transition-colors">Country</Label>
           <Select onValueChange={onCountryChange}>
-            <SelectTrigger id="country">
+            <SelectTrigger id="country" className="hover:border-primary transition-all hover:scale-[1.02]">
               <SelectValue placeholder="All Countries" />
             </SelectTrigger>
             <SelectContent>
@@ -30,10 +30,10 @@ export const FilterBar = ({ onCountryChange, onDegreeChange, onFundingChange }: 
           </Select>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="degree">Degree Level</Label>
+        <div className="space-y-2 group animate-fade-in" style={{ animationDelay: '0.1s' }}>
+          <Label htmlFor="degree" className="group-hover:text-primary transition-colors">Degree Level</Label>
           <Select onValueChange={onDegreeChange}>
-            <SelectTrigger id="degree">
+            <SelectTrigger id="degree" className="hover:border-primary transition-all hover:scale-[1.02]">
               <SelectValue placeholder="All Degrees" />
             </SelectTrigger>
             <SelectContent>
@@ -45,10 +45,10 @@ export const FilterBar = ({ onCountryChange, onDegreeChange, onFundingChange }: 
           </Select>
         </div>
 
-        <div className="space-y-2">
-          <Label htmlFor="funding">Funding Type</Label>
+        <div className="space-y-2 group animate-fade-in" style={{ animationDelay: '0.2s' }}>
+          <Label htmlFor="funding" className="group-hover:text-primary transition-colors">Funding Type</Label>
           <Select onValueChange={onFundingChange}>
-            <SelectTrigger id="funding">
+            <SelectTrigger id="funding" className="hover:border-primary transition-all hover:scale-[1.02]">
               <SelectValue placeholder="All Types" />
             </SelectTrigger>
             <SelectContent>

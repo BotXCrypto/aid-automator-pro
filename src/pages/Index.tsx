@@ -44,16 +44,16 @@ const Index = () => {
           {/* Tabs Section */}
           <div className="mb-8">
             <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-              <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 rounded-xl bg-card p-1 shadow-soft">
-                <TabsTrigger value="scholarships" className="rounded-lg data-[state=active]:bg-gradient-accent data-[state=active]:text-white">
+               <TabsList className="grid w-full max-w-2xl mx-auto grid-cols-3 rounded-xl bg-card p-1 shadow-soft">
+                <TabsTrigger value="scholarships" className="rounded-lg data-[state=active]:bg-gradient-accent data-[state=active]:text-white transition-all duration-300 hover:scale-105">
                   <GraduationCap className="w-4 h-4 mr-2" />
                   Scholarships
                 </TabsTrigger>
-                <TabsTrigger value="news" className="rounded-lg data-[state=active]:bg-gradient-accent data-[state=active]:text-white">
+                <TabsTrigger value="news" className="rounded-lg data-[state=active]:bg-gradient-accent data-[state=active]:text-white transition-all duration-300 hover:scale-105">
                   <Newspaper className="w-4 h-4 mr-2" />
                   Education News
                 </TabsTrigger>
-                <TabsTrigger value="tips" className="rounded-lg data-[state=active]:bg-gradient-accent data-[state=active]:text-white">
+                <TabsTrigger value="tips" className="rounded-lg data-[state=active]:bg-gradient-accent data-[state=active]:text-white transition-all duration-300 hover:scale-105">
                   <BookOpen className="w-4 h-4 mr-2" />
                   Tips & Guides
                 </TabsTrigger>
@@ -67,8 +67,8 @@ const Index = () => {
                 />
                 
                 {/* Featured/Sponsored Section */}
-                <div className="bg-gradient-accent rounded-2xl p-8 mb-8 text-center shadow-medium">
-                  <Sparkles className="w-12 h-12 mx-auto mb-4 text-white" />
+                <div className="bg-gradient-accent rounded-2xl p-8 mb-8 text-center shadow-medium animate-fade-in hover:shadow-hover transition-all duration-500 hover:scale-[1.02]">
+                  <Sparkles className="w-12 h-12 mx-auto mb-4 text-white animate-pulse" />
                   <h3 className="text-2xl font-heading font-bold text-white mb-2">
                     Sponsored Scholarships
                   </h3>
@@ -76,7 +76,7 @@ const Index = () => {
                     Premium scholarship opportunities highlighted for you
                   </p>
                   <Link to="/scholarships">
-                    <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 rounded-xl">
+                    <Button variant="outline" className="bg-white/10 text-white border-white/30 hover:bg-white/20 rounded-xl transition-all duration-300 hover:scale-105 hover:shadow-lg">
                       View Sponsored
                     </Button>
                   </Link>
@@ -98,8 +98,13 @@ const Index = () => {
                 </div>
                 
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredScholarships.map((scholarship) => (
-                    <ScholarshipCard key={scholarship.id} scholarship={scholarship} />
+                  {filteredScholarships.map((scholarship, index) => (
+                    <div 
+                      key={scholarship.id} 
+                      style={{ animationDelay: `${index * 0.1}s` }}
+                    >
+                      <ScholarshipCard scholarship={scholarship} />
+                    </div>
                   ))}
                 </div>
 
@@ -130,8 +135,12 @@ const Index = () => {
                 </div>
 
                 <div className="space-y-6">
-                  {[1, 2, 3].map((article) => (
-                    <div key={article} className="bg-card rounded-2xl shadow-medium p-6 hover:shadow-hover transition-all cursor-pointer">
+                  {[1, 2, 3].map((article, index) => (
+                    <div 
+                      key={article} 
+                      className="bg-card rounded-2xl shadow-medium p-6 hover:shadow-hover transition-all duration-500 cursor-pointer hover:-translate-y-1 animate-fade-in hover:border hover:border-primary/30" 
+                      style={{ animationDelay: `${index * 0.15}s` }}
+                    >
                       <div className="flex flex-col md:flex-row gap-4">
                         <div className="w-full md:w-48 h-48 bg-gradient-accent rounded-xl flex-shrink-0"></div>
                         <div className="flex-1">
@@ -145,7 +154,7 @@ const Index = () => {
                           <p className="text-muted-foreground mb-4 line-clamp-2">
                             Recent changes to visa requirements across major study destinations have created new opportunities and challenges for international students seeking to pursue their education abroad.
                           </p>
-                          <Button variant="outline" size="sm" className="rounded-xl">
+                          <Button variant="outline" size="sm" className="rounded-xl hover:bg-primary hover:text-primary-foreground transition-all duration-300 hover:scale-105">
                             Read More
                           </Button>
                         </div>
@@ -154,9 +163,9 @@ const Index = () => {
                   ))}
                 </div>
 
-                <div className="text-center mt-8">
+                <div className="text-center mt-8 animate-fade-in">
                   <Link to="/news">
-                    <Button size="lg" className="bg-gradient-accent hover:bg-gradient-hover transition-all rounded-xl">
+                    <Button size="lg" className="bg-gradient-accent hover:bg-gradient-hover transition-all duration-300 rounded-xl hover:scale-105 hover:shadow-lg">
                       View All News
                     </Button>
                   </Link>
