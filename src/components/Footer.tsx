@@ -58,6 +58,9 @@ export const Footer = () => {
         
         <div className="border-t border-border mt-8 pt-8 text-center text-muted-foreground">
           <p>&copy; 2025 NextScholar. All rights reserved.</p>
+          <Link to="/auth" className="text-xs hover:text-primary transition-colors mt-2 inline-block opacity-50 hover:opacity-100">
+            Admin Access
+          </Link>
         </div>
       </div>
     </footer>
