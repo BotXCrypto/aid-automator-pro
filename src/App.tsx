@@ -7,6 +7,7 @@ import { ScrollToTop } from "./components/ScrollToTop";
 import { ChatBot } from "./components/ChatBot";
 import Index from "./pages/Index";
 import Scholarships from "./pages/Scholarships";
+import Internships from "./pages/Internships";
 import ScholarshipDetails from "./pages/ScholarshipDetails";
 import GuideDetails from "./pages/GuideDetails";
 import EducationNews from "./pages/EducationNews";
@@ -33,6 +34,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/scholarships" element={<Scholarships />} />
+            <Route path="/internships" element={<Internships />} />
             <Route path="/scholarship/:id" element={<ScholarshipDetails />} />
             <Route path="/guides/:id" element={<GuideDetails />} />
             <Route path="/news" element={<EducationNews />} />
