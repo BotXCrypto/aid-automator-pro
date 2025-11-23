@@ -1,4 +1,4 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Hero } from "@/components/Hero";
@@ -6,7 +6,8 @@ import { FilterBar } from "@/components/FilterBar";
 import { ScholarshipCard } from "@/components/ScholarshipCard";
 import { EmailSubscribe } from "@/components/EmailSubscribe";
 import { Footer } from "@/components/Footer";
-import { mockScholarships } from "@/data/mockScholarships";
+import { api } from "@/services/api";
+import type { Scholarship } from "@/components/ScholarshipCard";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
@@ -19,12 +20,31 @@ const Index = () => {
   const [fundingFilter, setFundingFilter] = useState("all");
   const [activeTab, setActiveTab] = useState("scholarships");
 
+  const [scholarships, setScholarships] = useState<Scholarship[]>([]);
+  const [news, setNews] = useState<Scholarship[]>([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [scholarshipsData, newsData] = await Promise.all([
+          api.getScholarships(),
+          api.getNews(),
+        ]);
+        setScholarships(scholarshipsData);
+        setNews(newsData);
+      } catch (err) {
+        console.error("Failed to fetch data for homepage:", err);
+      }
+    };
+    fetchData();
+  }, []);
+
   const filteredScholarships = useMemo(() => {
-    return mockScholarships.filter((scholarship) => {
+    return scholarships.filter((scholarship) => {
       const matchesSearch = searchQuery === "" || 
         scholarship.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         scholarship.university.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        scholarship.country.toLowerCase().includes(searchQuery.toLowerCase());
+        (scholarship.country || "").toLowerCase().includes(searchQuery.toLowerCase());
       
       const matchesCountry = countryFilter === "all" || scholarship.country === countryFilter;
       const matchesDegree = degreeFilter === "all" || scholarship.degree === degreeFilter;
@@ -32,7 +52,7 @@ const Index = () => {
 
       return matchesSearch && matchesCountry && matchesDegree && matchesFunding;
     });
-  }, [searchQuery, countryFilter, degreeFilter, fundingFilter]);
+  }, [scholarships, searchQuery, countryFilter, degreeFilter, fundingFilter]);
 
   return (
     <div className="min-h-screen bg-background">
