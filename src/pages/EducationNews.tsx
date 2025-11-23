@@ -182,12 +182,6 @@ export default function EducationNews() {
             </div>
           </div>
 
-          {/* AdSense Placeholder - Top Banner */}
-          <div className="bg-muted rounded-2xl p-8 text-center mb-12">
-            <p className="text-muted-foreground text-sm">Advertisement</p>
-            <p className="text-muted-foreground mt-2">[Google AdSense Placeholder - 970x250]</p>
-          </div>
-
           {/* Featured Article */}
           {filteredArticles.find(a => a.featured) && (
             <div className="mb-12">
@@ -270,12 +264,6 @@ export default function EducationNews() {
             </div>
           )}
 
-          {/* AdSense Placeholder - Inline */}
-          <div className="bg-muted rounded-2xl p-8 text-center my-12">
-            <p className="text-muted-foreground text-sm">Advertisement</p>
-            <p className="text-muted-foreground mt-2">[Google AdSense Placeholder - 728x90]</p>
-          </div>
-
           {/* Newsletter Signup CTA */}
           <div className="bg-gradient-hero rounded-2xl shadow-strong p-12 text-center text-white">
             <Globe className="w-16 h-16 mx-auto mb-4" />
@@ -294,4 +282,5 @@ export default function EducationNews() {
     </div>
   );
 }
+
 

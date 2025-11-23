@@ -82,12 +82,6 @@ const Index = () => {
                   </Link>
                 </div>
 
-                {/* AdSense Placeholder */}
-                <div className="bg-muted rounded-2xl p-6 text-center mb-8">
-                  <p className="text-muted-foreground text-sm">Advertisement</p>
-                  <p className="text-muted-foreground mt-2">[Google AdSense Placeholder - 970x90]</p>
-                </div>
-
                 <div className="mt-8 mb-6">
                   <h2 className="text-3xl font-heading font-bold text-foreground">
                     {searchQuery ? `Search Results for "${searchQuery}"` : 'Featured Scholarships'}
@@ -126,12 +120,6 @@ const Index = () => {
                   <p className="text-muted-foreground">
                     Stay updated with visa updates, study abroad news, and education insights
                   </p>
-                </div>
-
-                {/* AdSense Placeholder */}
-                <div className="bg-muted rounded-2xl p-6 text-center mb-8">
-                  <p className="text-muted-foreground text-sm">Advertisement</p>
-                  <p className="text-muted-foreground mt-2">[Google AdSense Placeholder - 970x90]</p>
                 </div>
 
                 <div className="space-y-6">
@@ -183,12 +171,6 @@ const Index = () => {
                   </p>
                 </div>
 
-                {/* AdSense Placeholder */}
-                <div className="bg-muted rounded-2xl p-6 text-center mb-8">
-                  <p className="text-muted-foreground text-sm">Advertisement</p>
-                  <p className="text-muted-foreground mt-2">[Google AdSense Placeholder - 970x90]</p>
-                </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {[
                     { title: "How to Write a Winning Scholarship Essay", icon: "📝" },
@@ -225,3 +207,4 @@ const Index = () => {
 };
 
 export default Index;
+

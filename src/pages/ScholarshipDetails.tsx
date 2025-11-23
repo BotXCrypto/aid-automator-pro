@@ -186,12 +186,6 @@ export default function ScholarshipDetails() {
             </div>
           </div>
 
-          {/* AdSense Placeholder */}
-          <div className="bg-muted rounded-2xl p-8 text-center mb-6">
-            <p className="text-muted-foreground text-sm">Advertisement</p>
-            <p className="text-muted-foreground mt-2">[Google AdSense Placeholder - 728x90]</p>
-          </div>
-
           {/* Similar Scholarships Section */}
           {similarScholarships.length > 0 && (
             <div className="mt-12">
@@ -210,3 +204,4 @@ export default function ScholarshipDetails() {
     </div>
   );
 }
+

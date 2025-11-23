@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Newspaper } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 export const Navbar = () => {
@@ -22,11 +22,15 @@ export const Navbar = () => {
     <nav className="bg-card border-b border-border sticky top-0 z-50 shadow-soft backdrop-blur-md bg-card/95">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
-          <Link to="/" className="flex items-center gap-2 group">
-            <Newspaper className="w-8 h-8 text-primary group-hover:text-secondary transition-all duration-300 group-hover:rotate-12 group-hover:scale-110" />
+          <Link to="/" className="flex items-center gap-3 group">
+            <img
+              src="/favicon.png"
+              alt="NextScholar Icon"
+              className="h-10 w-10 object-contain transition-all duration-300 group-hover:scale-110 group-hover:rotate-6"
+            />
             <div className="flex flex-col">
-            <span className="text-2xl font-heading font-bold text-primary leading-tight group-hover:tracking-wide transition-all duration-300">NextScholar</span>
-            <span className="text-[10px] text-muted-foreground font-medium leading-tight -mt-1 group-hover:text-primary transition-colors">Smart Scholarships & Education Insights</span>
+              <span className="text-2xl font-heading font-bold text-primary leading-tight group-hover:tracking-wide transition-all duration-300">NextScholar</span>
+              <span className="text-[10px] text-muted-foreground font-medium leading-tight -mt-1 group-hover:text-primary transition-colors">Smart Scholarships & Education Insights</span>
             </div>
           </Link>
 
@@ -36,9 +40,8 @@ export const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`font-medium transition-all duration-300 hover:text-primary hover:scale-110 relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${
-                  isActive(link.path) ? "text-primary after:scale-x-100" : "text-muted-foreground"
-                }`}
+                className={`font-medium transition-all duration-300 hover:text-primary hover:scale-110 relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-primary after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left ${isActive(link.path) ? "text-primary after:scale-x-100" : "text-muted-foreground"
+                  }`}
               >
                 {link.label}
               </Link>
@@ -67,9 +70,8 @@ export const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`block py-2 font-medium transition-all duration-300 hover:text-primary hover:translate-x-2 animate-fade-in ${
-                  isActive(link.path) ? "text-primary" : "text-muted-foreground"
-                }`}
+                className={`block py-2 font-medium transition-all duration-300 hover:text-primary hover:translate-x-2 animate-fade-in ${isActive(link.path) ? "text-primary" : "text-muted-foreground"
+                  }`}
                 style={{ animationDelay: `${index * 0.05}s` }}
                 onClick={() => setIsOpen(false)}
               >

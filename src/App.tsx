@@ -8,6 +8,7 @@ import { ChatBot } from "./components/ChatBot";
 import Index from "./pages/Index";
 import Scholarships from "./pages/Scholarships";
 import ScholarshipDetails from "./pages/ScholarshipDetails";
+import GuideDetails from "./pages/GuideDetails";
 import EducationNews from "./pages/EducationNews";
 import Submit from "./pages/Submit";
 import About from "./pages/About";
@@ -16,32 +17,36 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AdminDashboard from "./pages/AdminDashboard";
 import Auth from "./pages/Auth";
 import NotFound from "./pages/NotFound";
+import { LanguageProvider } from "./contexts/LanguageContext";
 
 const queryClient = new QueryClient();
 
 function App() {
   return (
-    <QueryClientProvider client={queryClient}>
-      <Toaster />
-      <Sonner />
-      <BrowserRouter>
-        <ScrollToTop />
-        <ChatBot />
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/scholarships" element={<Scholarships />} />
-          <Route path="/scholarship/:id" element={<ScholarshipDetails />} />
-          <Route path="/news" element={<EducationNews />} />
-          <Route path="/submit" element={<Submit />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/privacy" element={<PrivacyPolicy />} />
-          <Route path="/auth" element={<Auth />} />
-          <Route path="/admin" element={<AdminDashboard />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </BrowserRouter>
-    </QueryClientProvider>
+    <LanguageProvider>
+      <QueryClientProvider client={queryClient}>
+        <Toaster />
+        <Sonner />
+        <BrowserRouter>
+          <ScrollToTop />
+          <ChatBot />
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/scholarships" element={<Scholarships />} />
+            <Route path="/scholarship/:id" element={<ScholarshipDetails />} />
+            <Route path="/guides/:id" element={<GuideDetails />} />
+            <Route path="/news" element={<EducationNews />} />
+            <Route path="/submit" element={<Submit />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/privacy" element={<PrivacyPolicy />} />
+            <Route path="/auth" element={<Auth />} />
+            <Route path="/admin" element={<AdminDashboard />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </BrowserRouter>
+      </QueryClientProvider>
+    </LanguageProvider>
   );
 }
 

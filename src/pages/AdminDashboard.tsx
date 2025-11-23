@@ -97,6 +97,11 @@ export default function AdminDashboard() {
     university: "",
   });
 
+  // Image upload for Add New
+  const [newPostImageFile, setNewPostImageFile] = useState<File | null>(null);
+  const [newPostImagePreview, setNewPostImagePreview] = useState<string | null>(null);
+  const [newPostUploadingImage, setNewPostUploadingImage] = useState(false);
+
   // AI Extraction state
   const [aiText, setAiText] = useState("");
   const [aiExtracting, setAiExtracting] = useState(false);
@@ -264,6 +269,22 @@ export default function AdminDashboard() {
   const handleCreatePost = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
+      let image_url: string | null = newPost.image_url || null;
+
+      if (newPostImageFile) {
+        setNewPostUploadingImage(true);
+        const filePath = `posts/${Date.now()}_${newPostImageFile.name}`;
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from("images")
+          .upload(filePath, newPostImageFile, { cacheControl: "3600", upsert: false });
+
+        if (uploadError) throw uploadError;
+
+        const { data: publicData } = supabase.storage.from("images").getPublicUrl(filePath);
+        image_url = publicData?.publicUrl ?? image_url;
+        setNewPostUploadingImage(false);
+      }
+
       const { error } = await supabase.from("posts").insert({
         title: newPost.title,
         category: newPost.category as any,
@@ -272,7 +293,7 @@ export default function AdminDashboard() {
         funding: newPost.funding as any || null,
         deadline: newPost.deadline || null,
         description: newPost.description || null,
-        image_url: newPost.image_url || null,
+        image_url: image_url || null,
         link: newPost.link || null,
         university: newPost.university || null,
         created_by: user?.id,
@@ -294,6 +315,8 @@ export default function AdminDashboard() {
         link: "",
         university: "",
       });
+      setNewPostImageFile(null);
+      setNewPostImagePreview(null);
       fetchData();
     } catch (error: any) {
       toast({
@@ -748,6 +771,27 @@ export default function AdminDashboard() {
                             setNewPost({ ...newPost, image_url: e.target.value })
                           }
                         />
+                        <div className="mt-2">
+                          <Label className="text-sm">Or upload image</Label>
+                          <Input
+                            type="file"
+                            accept="image/*"
+                            onChange={(e) => {
+                              const f = e.target.files?.[0] ?? null;
+                              setNewPostImageFile(f);
+                              if (f) {
+                                const reader = new FileReader();
+                                reader.onload = () => setNewPostImagePreview(String(reader.result));
+                                reader.readAsDataURL(f);
+                              } else {
+                                setNewPostImagePreview(null);
+                              }
+                            }}
+                          />
+                          {newPostImagePreview && (
+                            <img src={newPostImagePreview} alt="preview" className="mt-2 max-h-40 rounded-md" />
+                          )}
+                        </div>
                     </div>
                   </div>
                     <div className="space-y-2">

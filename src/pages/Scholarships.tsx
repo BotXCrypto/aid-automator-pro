@@ -1,9 +1,10 @@
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { Navbar } from "@/components/Navbar";
 import { FilterBar } from "@/components/FilterBar";
 import { ScholarshipCard } from "@/components/ScholarshipCard";
 import { Footer } from "@/components/Footer";
-import { mockScholarships } from "@/data/mockScholarships";
+import { api } from "@/services/api";
+import type { Scholarship } from "@/components/ScholarshipCard";
 import { Input } from "@/components/ui/input";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Search } from "lucide-react";
@@ -16,20 +17,61 @@ export default function Scholarships() {
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
+  const [allScholarships, setAllScholarships] = useState<Scholarship[]>([]);
+  const [loading, setLoading] = useState(false);
+
+  useEffect(() => {
+    const fetchScholarships = async () => {
+      setLoading(true);
+      try {
+        const data = await api.getScholarships();
+        setAllScholarships(data);
+      } catch (err) {
+        console.error("Failed to fetch scholarships:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchScholarships();
+  }, []);
+
+  const humanizeDegree = (d: string | null) => {
+    if (!d) return "";
+    const map: Record<string, string> = {
+      bachelor: "Bachelor",
+      master: "Master's",
+      phd: "PhD",
+      undergraduate: "Undergraduate",
+      postgraduate: "Postgraduate",
+    };
+    return map[d] ?? String(d);
+  };
+
+  const humanizeFunding = (f: string | null) => {
+    if (!f) return "";
+    const map: Record<string, string> = {
+      fully_funded: "Fully Funded",
+      partially_funded: "Partially Funded",
+      not_funded: "Not Funded",
+    };
+    return map[f] ?? String(f);
+  };
+
   const filteredScholarships = useMemo(() => {
-    return mockScholarships.filter((scholarship) => {
-      const matchesSearch = searchQuery === "" || 
+    return allScholarships.filter((scholarship) => {
+      const matchesSearch = searchQuery === "" ||
         scholarship.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         scholarship.university.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        scholarship.country.toLowerCase().includes(searchQuery.toLowerCase());
-      
+        (scholarship.country || "").toLowerCase().includes(searchQuery.toLowerCase());
+
       const matchesCountry = countryFilter === "all" || scholarship.country === countryFilter;
       const matchesDegree = degreeFilter === "all" || scholarship.degree === degreeFilter;
       const matchesFunding = fundingFilter === "all" || scholarship.funding === fundingFilter;
 
       return matchesSearch && matchesCountry && matchesDegree && matchesFunding;
     });
-  }, [searchQuery, countryFilter, degreeFilter, fundingFilter]);
+  }, [searchQuery, countryFilter, degreeFilter, fundingFilter, allScholarships]);
 
   const totalPages = Math.ceil(filteredScholarships.length / itemsPerPage);
   const startIndex = (currentPage - 1) * itemsPerPage;
@@ -44,7 +86,7 @@ export default function Scholarships() {
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
-      
+
       <section className="py-12 bg-muted/30">
         <div className="container px-4 mx-auto">
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
@@ -69,24 +111,7 @@ export default function Scholarships() {
             onDegreeChange={setDegreeFilter}
             onFundingChange={setFundingFilter}
           />
-          
-          <div className="mt-8 mb-6">
-            <p className="text-muted-foreground">
-              Showing {filteredScholarships.length} scholarship{filteredScholarships.length !== 1 ? 's' : ''}
-            </p>
-          </div>
 
-          {/* AdSense Placeholder - Top Banner */}
-          <div className="bg-muted rounded-2xl p-6 text-center mb-8">
-            <p className="text-muted-foreground text-sm">Advertisement</p>
-            <p className="text-muted-foreground mt-2">[Google AdSense Placeholder - 970x90]</p>
-          </div>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {currentScholarships.map((scholarship) => (
-              <ScholarshipCard key={scholarship.id} scholarship={scholarship} />
-            ))}
-          </div>
 
           {filteredScholarships.length === 0 && (
             <div className="text-center py-12">
@@ -102,7 +127,7 @@ export default function Scholarships() {
               <Pagination>
                 <PaginationContent>
                   <PaginationItem>
-                    <PaginationPrevious 
+                    <PaginationPrevious
                       onClick={() => handlePageChange(currentPage > 1 ? currentPage - 1 : 1)}
                       className={currentPage === 1 ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
                     />
@@ -131,7 +156,7 @@ export default function Scholarships() {
                     return null;
                   })}
                   <PaginationItem>
-                    <PaginationNext 
+                    <PaginationNext
                       onClick={() => handlePageChange(currentPage < totalPages ? currentPage + 1 : totalPages)}
                       className={currentPage === totalPages ? 'pointer-events-none opacity-50' : 'cursor-pointer'}
                     />
@@ -147,3 +172,4 @@ export default function Scholarships() {
     </div>
   );
 }
+

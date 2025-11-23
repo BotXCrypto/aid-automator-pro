@@ -3,12 +3,15 @@ import { Link } from "react-router-dom";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import heroImage from "@/assets/hero-image.jpg";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface HeroProps {
   onSearch: (query: string) => void;
 }
 
 export const Hero = ({ onSearch }: HeroProps) => {
+  const { t } = useLanguage();
+
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formData = new FormData(e.currentTarget);
@@ -18,7 +21,7 @@ export const Hero = ({ onSearch }: HeroProps) => {
 
   return (
     <section className="relative min-h-[650px] flex items-center justify-center overflow-hidden">
-      <div 
+      <div
         className="absolute inset-0 bg-gradient-hero"
         style={{
           backgroundImage: `linear-gradient(180deg, rgba(0, 51, 102, 0.95) 0%, rgba(0, 194, 168, 0.90) 100%), url(${heroImage})`,
@@ -26,26 +29,26 @@ export const Hero = ({ onSearch }: HeroProps) => {
           backgroundPosition: 'center',
         }}
       />
-      
+
       <div className="container relative z-10 px-4 py-24 mx-auto text-center">
         <h1 className="mb-6 text-5xl font-heading font-bold text-white md:text-6xl lg:text-7xl animate-fade-in">
-          Find Scholarships, Study Opportunities & Education News
+          {t("hero.title")}
         </h1>
         <p className="mb-10 text-xl text-white/95 md:text-2xl max-w-3xl mx-auto animate-fade-in font-medium" style={{ animationDelay: '0.1s' }}>
-          Discover fully funded scholarships for Bachelor's, Master's, and PhD programs • Updated Daily • Smart AI-powered insights
+          {t("hero.subtitle")}
         </p>
-        
+
         <form onSubmit={handleSubmit} className="max-w-3xl mx-auto animate-fade-in" style={{ animationDelay: '0.2s' }}>
           <div className="flex gap-3 p-3 bg-white rounded-2xl shadow-strong hover:shadow-hover transition-all duration-300 hover:scale-[1.02]">
             <Input
               type="text"
               name="search"
-              placeholder="Search by country, university, or degree level..."
+              placeholder={t("hero.searchPlaceholder")}
               className="flex-1 border-0 text-lg focus-visible:ring-0 focus-visible:ring-offset-0 font-sans transition-all"
             />
             <Button type="submit" size="lg" className="bg-gradient-accent hover:bg-gradient-hover transition-all duration-300 px-8 rounded-xl hover:scale-105 hover:shadow-lg group">
               <Search className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
-              <span className="group-hover:tracking-wide transition-all">Search</span>
+              <span className="group-hover:tracking-wide transition-all">{t("hero.searchButton")}</span>
             </Button>
           </div>
         </form>
@@ -62,7 +65,7 @@ export const Hero = ({ onSearch }: HeroProps) => {
             </Button>
           </Link>
         </div>
-        
+
         <div className="mt-8 flex flex-wrap justify-center gap-4 text-white/90 animate-fade-in" style={{ animationDelay: '0.4s' }}>
           <div className="flex items-center gap-2 hover:scale-110 transition-transform cursor-default">
             <div className="w-2 h-2 rounded-full bg-secondary animate-pulse"></div>
