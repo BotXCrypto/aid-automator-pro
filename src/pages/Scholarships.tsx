@@ -113,11 +113,25 @@ export default function Scholarships() {
           />
 
 
-          {filteredScholarships.length === 0 && (
+          {currentScholarships.length > 0 && (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
+              {currentScholarships.map((scholarship) => (
+                <ScholarshipCard key={scholarship.id} scholarship={scholarship} />
+              ))}
+            </div>
+          )}
+
+          {filteredScholarships.length === 0 && !loading && (
             <div className="text-center py-12">
-              <p className="text-xl text-muted-foreground">
+              <p className="text-xl text-muted-foreground mb-6">
                 No scholarships found matching your criteria. Try adjusting your filters.
               </p>
+            </div>
+          )}
+
+          {loading && (
+            <div className="text-center py-12">
+              <p className="text-lg text-muted-foreground">Loading scholarships...</p>
             </div>
           )}
 

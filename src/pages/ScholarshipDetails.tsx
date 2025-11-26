@@ -1,10 +1,12 @@
 import { useParams, Link } from "react-router-dom";
+import { useEffect, useState } from "react";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ScholarshipCard } from "@/components/ScholarshipCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { mockScholarships } from "@/data/mockScholarships";
+import { api } from "@/services/api";
+import type { Scholarship } from "@/components/ScholarshipCard";
 import { 
   Calendar, 
   MapPin, 
@@ -21,12 +23,47 @@ import {
 
 export default function ScholarshipDetails() {
   const { id } = useParams();
-  const scholarship = mockScholarships.find(s => s.id === id);
-  
-  // Get similar scholarships (exclude current one)
-  const similarScholarships = mockScholarships
-    .filter(s => s.id !== id && (s.country === scholarship?.country || s.degree === scholarship?.degree))
-    .slice(0, 3);
+  const [scholarship, setScholarship] = useState<Scholarship | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [similarScholarships, setSimilarScholarships] = useState<Scholarship[]>([]);
+
+  useEffect(() => {
+    const fetchScholarshipDetails = async () => {
+      if (!id) return;
+      try {
+        setLoading(true);
+        const allScholarships = await api.getScholarships();
+        const found = allScholarships.find(s => s.id === id);
+        setScholarship(found || null);
+
+        if (found) {
+          const similar = allScholarships
+            .filter(s => s.id !== id && (s.country === found.country || s.degree === found.degree))
+            .slice(0, 3);
+          setSimilarScholarships(similar);
+        }
+      } catch (err) {
+        console.error("Failed to fetch scholarship details:", err);
+        setScholarship(null);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchScholarshipDetails();
+  }, [id]);
+
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Navbar />
+        <div className="container mx-auto px-4 py-20 text-center">
+          <p className="text-lg text-muted-foreground">Loading scholarship details...</p>
+        </div>
+        <Footer />
+      </div>
+    );
+  }
 
   if (!scholarship) {
     return (
@@ -36,8 +73,11 @@ export default function ScholarshipDetails() {
           <h1 className="text-4xl font-heading font-bold text-foreground mb-4">
             Scholarship Not Found
           </h1>
+          <p className="text-lg text-muted-foreground mb-6">
+            The scholarship you're looking for doesn't exist or has been removed.
+          </p>
           <Link to="/scholarships">
-            <Button>View All Scholarships</Button>
+            <Button size="lg">View All Scholarships</Button>
           </Link>
         </div>
         <Footer />
