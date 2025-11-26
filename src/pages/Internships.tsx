@@ -37,6 +37,16 @@ export default function Internships() {
   }, []);
 
   const filtered = useMemo(() => {
+    const matchWorkType = (item: Scholarship, type: string) => {
+      if (type === "all") return true;
+      const text = `${item.title} ${item.description} ${item.university} ${item.country} ${item.funding}`.toLowerCase();
+      if (type === "remote") return /remote|work from home|work-from-home|telecommute/.test(text);
+      if (type === "on_site") return /on[- ]?site|onsite|office/.test(text);
+      if (type === "hybrid") return /hybrid/.test(text);
+      if (type === "part_time") return /part[- ]?time|internship \(part/.test(text);
+      return false;
+    };
+
     return allInternships.filter((item) => {
       const matchesSearch = searchQuery === "" ||
         item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -45,7 +55,7 @@ export default function Internships() {
 
       const matchesCountry = countryFilter === "all" || item.country === countryFilter;
       const matchesDegree = degreeFilter === "all" || item.degree === degreeFilter;
-      const matchesFunding = fundingFilter === "all" || item.funding === fundingFilter;
+      const matchesFunding = matchWorkType(item, fundingFilter);
 
       return matchesSearch && matchesCountry && matchesDegree && matchesFunding;
     });
@@ -84,6 +94,7 @@ export default function Internships() {
           </div>
 
           <FilterBar
+            context="internship"
             onCountryChange={setCountryFilter}
             onDegreeChange={setDegreeFilter}
             onFundingChange={setFundingFilter}
