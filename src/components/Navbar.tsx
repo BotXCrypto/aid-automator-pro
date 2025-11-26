@@ -15,7 +15,7 @@ export const Navbar = () => {
     { path: "/internships", label: "Internships" },
     { path: "/news", label: "Education News" },
     { path: "/submit", label: "Submit" },
-    { path: "/about", label: "About" },
+    
     { path: "/contact", label: "Contact" },
   ];
 
