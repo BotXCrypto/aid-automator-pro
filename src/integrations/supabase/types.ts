@@ -173,24 +173,6 @@ export type Database = {
         }
         Relationships: []
       }
-      subscriptions: {
-        Row: {
-          id: string
-          email: string | null
-          created_at: string | null
-        }
-        Insert: {
-          id?: string
-          email: string
-          created_at?: string | null
-        }
-        Update: {
-          id?: string
-          email?: string
-          created_at?: string | null
-        }
-        Relationships: []
-      }
     }
     Views: {
       [_ in never]: never
