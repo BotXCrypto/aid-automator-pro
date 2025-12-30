@@ -1,13 +1,44 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, User, LogOut, Settings, LogIn } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useAuth } from "@/hooks/useAuth";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [profile, setProfile] = useState<{ avatar_url: string | null; full_name: string | null } | null>(null);
   const location = useLocation();
+  const { user, isAdmin, signOut } = useAuth();
 
   const isActive = (path: string) => location.pathname === path;
+
+  // Fetch user profile
+  useEffect(() => {
+    if (user) {
+      supabase
+        .from("profiles")
+        .select("avatar_url, full_name")
+        .eq("user_id", user.id)
+        .maybeSingle()
+        .then(({ data }) => setProfile(data));
+    } else {
+      setProfile(null);
+    }
+  }, [user]);
+
+  const getInitials = (email: string, name?: string | null) => {
+    if (name) return name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
+    return email.slice(0, 2).toUpperCase();
+  };
 
   const navLinks = [
     { path: "/", label: "Home" },
@@ -15,7 +46,6 @@ export const Navbar = () => {
     { path: "/internships", label: "Internships" },
     { path: "/news", label: "Education News" },
     { path: "/submit", label: "Submit" },
-    
     { path: "/contact", label: "Contact" },
   ];
 
@@ -47,6 +77,66 @@ export const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            
+            {/* User Profile Dropdown */}
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" size="icon" className="rounded-full hover:bg-primary/10 p-0">
+                    <Avatar className="h-8 w-8">
+                      <AvatarImage src={profile?.avatar_url || undefined} alt="Profile" />
+                      <AvatarFallback className="bg-primary/10 text-primary text-sm">
+                        {getInitials(user.email || "", profile?.full_name)}
+                      </AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-56 bg-card border border-border shadow-lg z-50">
+                  <div className="flex items-center gap-3 px-3 py-2">
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={profile?.avatar_url || undefined} alt="Profile" />
+                      <AvatarFallback className="bg-primary/10 text-primary">
+                        {getInitials(user.email || "", profile?.full_name)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col overflow-hidden">
+                      {profile?.full_name && (
+                        <span className="text-sm font-medium text-foreground truncate">{profile.full_name}</span>
+                      )}
+                      <span className="text-xs text-muted-foreground truncate">{user.email}</span>
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem asChild>
+                    <Link to="/profile" className="flex items-center gap-2 cursor-pointer">
+                      <User className="h-4 w-4" />
+                      Profile Settings
+                    </Link>
+                  </DropdownMenuItem>
+                  {isAdmin && (
+                    <DropdownMenuItem asChild>
+                      <Link to="/admin" className="flex items-center gap-2 cursor-pointer">
+                        <Settings className="h-4 w-4" />
+                        Admin Dashboard
+                      </Link>
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={signOut} className="flex items-center gap-2 cursor-pointer text-destructive focus:text-destructive">
+                    <LogOut className="h-4 w-4" />
+                    Sign Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link to="/auth">
+                <Button variant="outline" size="sm" className="rounded-xl gap-2">
+                  <LogIn className="h-4 w-4" />
+                  Login
+                </Button>
+              </Link>
+            )}
+
             <a href="#newsletter">
               <Button className="bg-gradient-accent hover:bg-gradient-hover transition-all duration-300 rounded-xl hover:scale-105 hover:shadow-lg">
                 Subscribe
@@ -79,6 +169,63 @@ export const Navbar = () => {
                 {link.label}
               </Link>
             ))}
+            
+            {/* Mobile User Actions */}
+            {user ? (
+              <div className="mt-4 pt-4 border-t border-border space-y-3">
+                <div className="flex items-center gap-3 px-2">
+                  <Avatar className="h-10 w-10">
+                    <AvatarImage src={profile?.avatar_url || undefined} alt="Profile" />
+                    <AvatarFallback className="bg-primary/10 text-primary">
+                      {getInitials(user.email || "", profile?.full_name)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex flex-col overflow-hidden">
+                    {profile?.full_name && (
+                      <span className="text-sm font-medium text-foreground truncate">{profile.full_name}</span>
+                    )}
+                    <span className="text-xs text-muted-foreground truncate">{user.email}</span>
+                  </div>
+                </div>
+                <Link
+                  to="/profile"
+                  className="flex items-center gap-2 py-2 text-muted-foreground hover:text-primary transition-colors"
+                  onClick={() => setIsOpen(false)}
+                >
+                  <User className="h-4 w-4" />
+                  Profile Settings
+                </Link>
+                {isAdmin && (
+                  <Link
+                    to="/admin"
+                    className="flex items-center gap-2 py-2 text-muted-foreground hover:text-primary transition-colors"
+                    onClick={() => setIsOpen(false)}
+                  >
+                    <Settings className="h-4 w-4" />
+                    Admin Dashboard
+                  </Link>
+                )}
+                <Button
+                  variant="ghost"
+                  className="w-full justify-start gap-2 text-destructive hover:text-destructive hover:bg-destructive/10"
+                  onClick={() => {
+                    signOut();
+                    setIsOpen(false);
+                  }}
+                >
+                  <LogOut className="h-4 w-4" />
+                  Sign Out
+                </Button>
+              </div>
+            ) : (
+              <Link to="/auth" onClick={() => setIsOpen(false)}>
+                <Button variant="outline" className="w-full mt-4 gap-2 rounded-xl">
+                  <LogIn className="h-4 w-4" />
+                  Login
+                </Button>
+              </Link>
+            )}
+
             <a href="#newsletter">
               <Button className="w-full mt-4 bg-gradient-accent hover:bg-gradient-hover transition-all duration-300 rounded-xl hover:scale-105 animate-fade-in" style={{ animationDelay: '0.3s' }}>
                 Subscribe

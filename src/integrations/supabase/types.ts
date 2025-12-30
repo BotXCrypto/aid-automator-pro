@@ -76,6 +76,7 @@ export type Database = {
       }
       profiles: {
         Row: {
+          avatar_url: string | null
           created_at: string | null
           email: string | null
           full_name: string | null
@@ -84,6 +85,7 @@ export type Database = {
           user_id: string
         }
         Insert: {
+          avatar_url?: string | null
           created_at?: string | null
           email?: string | null
           full_name?: string | null
@@ -92,6 +94,7 @@ export type Database = {
           user_id: string
         }
         Update: {
+          avatar_url?: string | null
           created_at?: string | null
           email?: string | null
           full_name?: string | null
@@ -170,24 +173,6 @@ export type Database = {
           submitted_by_name?: string | null
           title?: string
           university?: string | null
-        }
-        Relationships: []
-      }
-      subscriptions: {
-        Row: {
-          id: string
-          email: string | null
-          created_at: string | null
-        }
-        Insert: {
-          id?: string
-          email: string
-          created_at?: string | null
-        }
-        Update: {
-          id?: string
-          email?: string
-          created_at?: string | null
         }
         Relationships: []
       }
