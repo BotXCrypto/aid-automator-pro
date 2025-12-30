@@ -1,12 +1,15 @@
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2.7.1";
 
+// Deno runtime global (this file runs on Deno in Supabase functions)
+declare const Deno: any;
+
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
-serve(async (req) => {
+serve(async (req: Request) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
   }
@@ -17,38 +20,66 @@ serve(async (req) => {
       Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
-    // Verify admin authentication
-    const authHeader = req.headers.get('Authorization');
-    if (!authHeader) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
+    // Optional debug bypass: if you set an env var `AI_EXTRACT_DEBUG_KEY` in the function
+    // and send header `x-debug-key: <value>` the function will bypass auth and role checks.
+    // This is useful for testing without sharing tokens. Do NOT enable this in production.
+    const debugHeader = req.headers.get('x-debug-key');
+    const DEBUG_KEY = Deno.env.get('AI_EXTRACT_DEBUG_KEY');
+    let debugBypass = false;
+    if (debugHeader && DEBUG_KEY && debugHeader === DEBUG_KEY) {
+      console.log('ai-extract: debug bypass activated');
+      debugBypass = true;
     }
 
-    const token = authHeader.replace('Bearer ', '');
-    const { data: { user }, error: authError } = await supabaseClient.auth.getUser(token);
+    let user: any = null;
+    if (!debugBypass) {
+      // Verify admin authentication
+      const authHeader = req.headers.get('Authorization');
+      if (!authHeader) {
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
 
-    if (authError || !user) {
-      return new Response(JSON.stringify({ error: 'Unauthorized' }), {
-        status: 401,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
-    }
+      const token = authHeader.replace('Bearer ', '');
+      // Verify user token. supabase-js v2 accepts an object with access_token for server-side verification
+      const { data: authData, error: authError } = await supabaseClient.auth.getUser({ access_token: token as string });
+      user = authData?.user ?? null;
 
-    // Check if user is admin
-    const { data: roleData } = await supabaseClient
-      .from('user_roles')
-      .select('role')
-      .eq('user_id', user.id)
-      .eq('role', 'admin')
-      .maybeSingle();
+      if (authError || !user) {
+        console.error('Auth error:', authError);
+        return new Response(JSON.stringify({ error: 'Unauthorized' }), {
+          status: 401,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
 
-    if (!roleData) {
-      return new Response(JSON.stringify({ error: 'Admin access required' }), {
-        status: 403,
-        headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-      });
+      // Check if user is admin
+      const { data: roleData, error: roleError } = await supabaseClient
+        .from('user_roles')
+        .select('role')
+        .eq('user_id', user.id)
+        .eq('role', 'admin')
+        .maybeSingle();
+
+      if (roleError) {
+        console.error('Role lookup error:', roleError);
+        return new Response(JSON.stringify({ error: 'Internal server error' }), {
+          status: 500,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+
+      if (!roleData || roleData.role !== 'admin') {
+        return new Response(JSON.stringify({ error: 'Admin access required' }), {
+          status: 403,
+          headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+        });
+      }
+    } else {
+      // Debug bypass: create a fake admin user for testing
+      user = { id: 'debug-admin', email: Deno.env.get('AI_EXTRACT_DEBUG_EMAIL') ?? 'debug@example.com' };
     }
 
     const { text } = await req.json();
