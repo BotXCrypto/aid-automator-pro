@@ -11,7 +11,8 @@ import type { Scholarship } from "@/components/ScholarshipCard";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, BookOpen, GraduationCap, Newspaper } from "lucide-react";
+import { Sparkles, BookOpen, GraduationCap, Newspaper, Globe, ArrowRight } from "lucide-react";
+import { InteractiveGlobe } from "@/components/ui/interactive-globe";
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
@@ -58,7 +59,57 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <Navbar />
       <Hero onSearch={setSearchQuery} />
-      
+      {/* Global Network Section */}
+      <section className="py-16 bg-primary relative overflow-hidden">
+        <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_hsl(var(--secondary)/0.1)_0%,_transparent_70%)]" />
+        <div className="container px-4 mx-auto relative z-10">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            <div className="space-y-5 text-primary-foreground">
+              <Badge variant="outline" className="border-secondary text-secondary gap-1.5 px-3 py-1">
+                <Globe className="w-3.5 h-3.5" />
+                Global Reach
+              </Badge>
+              <h2 className="text-3xl md:text-4xl font-heading font-bold leading-tight">
+                Scholarships Across <span className="text-secondary">40+ Countries</span>
+              </h2>
+              <p className="text-primary-foreground/70 max-w-lg">
+                Our network spans every continent, connecting students with fully funded opportunities at world-class universities. Drag the globe to explore.
+              </p>
+              <div className="grid grid-cols-3 gap-4 pt-2">
+                <div className="text-center">
+                  <p className="text-2xl font-bold">500+</p>
+                  <p className="text-xs text-primary-foreground/60">Scholarships</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold">150+</p>
+                  <p className="text-xs text-primary-foreground/60">Universities</p>
+                </div>
+                <div className="text-center">
+                  <p className="text-2xl font-bold">10K+</p>
+                  <p className="text-xs text-primary-foreground/60">Students Helped</p>
+                </div>
+              </div>
+              <Link to="/global-network">
+                <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 rounded-xl mt-2 group">
+                  Explore Global Network
+                  <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </div>
+            <div className="flex items-center justify-center">
+              <InteractiveGlobe
+                className="w-full max-w-[420px] aspect-square"
+                size={420}
+                dotColor="rgba(100, 220, 200, ALPHA)"
+                arcColor="hsla(174, 100%, 52%, 0.5)"
+                markerColor="hsla(174, 100%, 62%, 1)"
+                autoRotateSpeed={0.003}
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="py-12 bg-muted/30">
         <div className="container px-4 mx-auto">
           {/* Tabs Section */}
