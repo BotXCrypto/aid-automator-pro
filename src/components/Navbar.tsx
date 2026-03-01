@@ -44,6 +44,7 @@ export const Navbar = () => {
     { path: "/", label: "Home" },
     { path: "/scholarships", label: "Scholarships" },
     { path: "/internships", label: "Internships" },
+    { path: "/global-network", label: "Global Network" },
     { path: "/news", label: "Education News" },
     { path: "/submit", label: "Submit" },
     { path: "/contact", label: "Contact" },
