@@ -20,6 +20,7 @@ import Auth from "./pages/Auth";
 import ProfileSettings from "./pages/ProfileSettings";
 import { ProtectedAdminRoute } from "./components/ProtectedAdminRoute";
 import NotFound from "./pages/NotFound";
+import GlobalNetwork from "./pages/GlobalNetwork";
 import { LanguageProvider } from "./contexts/LanguageContext";
 
 const queryClient = new QueryClient();
@@ -46,6 +47,7 @@ function App() {
             <Route path="/privacy" element={<PrivacyPolicy />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/profile" element={<ProfileSettings />} />
+            <Route path="/global-network" element={<GlobalNetwork />} />
             <Route path="/admin" element={<ProtectedAdminRoute><AdminDashboard /></ProtectedAdminRoute>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
