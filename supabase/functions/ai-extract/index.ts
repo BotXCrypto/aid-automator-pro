@@ -43,8 +43,8 @@ serve(async (req: Request) => {
       }
 
       const token = authHeader.replace('Bearer ', '');
-      // Verify user token. supabase-js v2 accepts an object with access_token for server-side verification
-      const { data: authData, error: authError } = await supabaseClient.auth.getUser({ access_token: token as string });
+      // Verify user token
+      const { data: authData, error: authError } = await supabaseClient.auth.getUser(token);
       user = authData?.user ?? null;
 
       if (authError || !user) {
