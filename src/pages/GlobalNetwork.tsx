@@ -70,10 +70,10 @@ const SCHOLARSHIP_CONNECTIONS: { from: [number, number]; to: [number, number] }[
 ];
 
 const stats = [
-  { icon: Globe, label: "Countries", value: "40+" },
-  { icon: GraduationCap, label: "Scholarships", value: "500+" },
-  { icon: Users, label: "Students Helped", value: "10K+" },
-  { icon: TrendingUp, label: "Success Rate", value: "85%" },
+  { icon: Globe, label: "Countries", target: 40, suffix: "+" },
+  { icon: GraduationCap, label: "Scholarships", target: 500, suffix: "+" },
+  { icon: Users, label: "Students Helped", target: 10, suffix: "K+" },
+  { icon: TrendingUp, label: "Success Rate", target: 85, suffix: "%" },
 ];
 
 const regions = [
