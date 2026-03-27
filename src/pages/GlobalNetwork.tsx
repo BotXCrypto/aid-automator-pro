@@ -6,9 +6,40 @@ import { Card } from "@/components/ui/card";
 import { Globe, MapPin, GraduationCap, TrendingUp, Users } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { api } from "@/services/api";
 import { Scholarship } from "@/components/ScholarshipCard";
+
+function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
+  const [count, setCount] = useState(0);
+  const [hasAnimated, setHasAnimated] = useState(false);
+  const ref = useRef<HTMLSpanElement>(null);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting && !hasAnimated) {
+          setHasAnimated(true);
+          const start = performance.now();
+          const step = (now: number) => {
+            const progress = Math.min((now - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - progress, 3);
+            setCount(Math.floor(eased * target));
+            if (progress < 1) requestAnimationFrame(step);
+          };
+          requestAnimationFrame(step);
+        }
+      },
+      { threshold: 0.5 }
+    );
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, [hasAnimated, target, duration]);
+
+  return <span ref={ref}>{count.toLocaleString()}{suffix}</span>;
+}
 
 const SCHOLARSHIP_MARKERS = [
   { lat: 51.51, lng: -0.13, label: "UK" },
@@ -39,10 +70,10 @@ const SCHOLARSHIP_CONNECTIONS: { from: [number, number]; to: [number, number] }[
 ];
 
 const stats = [
-  { icon: Globe, label: "Countries", value: "40+" },
-  { icon: GraduationCap, label: "Scholarships", value: "500+" },
-  { icon: Users, label: "Students Helped", value: "10K+" },
-  { icon: TrendingUp, label: "Success Rate", value: "85%" },
+  { icon: Globe, label: "Countries", target: 40, suffix: "+" },
+  { icon: GraduationCap, label: "Scholarships", target: 500, suffix: "+" },
+  { icon: Users, label: "Students Helped", target: 10, suffix: "K+" },
+  { icon: TrendingUp, label: "Success Rate", target: 85, suffix: "%" },
 ];
 
 const regions = [
@@ -101,7 +132,7 @@ export default function GlobalNetwork() {
                 {stats.map((stat) => (
                   <div key={stat.label} className="text-center">
                     <stat.icon className="w-5 h-5 mx-auto mb-1 text-secondary" />
-                    <p className="text-2xl font-bold">{stat.value}</p>
+                    <p className="text-2xl font-bold"><AnimatedCounter target={stat.target} suffix={stat.suffix} /></p>
                     <p className="text-xs text-primary-foreground/60">{stat.label}</p>
                   </div>
                 ))}
