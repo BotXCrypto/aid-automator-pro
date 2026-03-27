@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { FilterBar } from "@/components/FilterBar";
 import { ScholarshipCard } from "@/components/ScholarshipCard";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { api } from "@/services/api";
 import type { Scholarship } from "@/components/ScholarshipCard";
 import { Input } from "@/components/ui/input";
@@ -72,6 +73,11 @@ export default function Internships() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Internships"
+        description="Discover top internship opportunities worldwide. Find paid and fully funded internships for students and graduates."
+        canonical="/internships"
+      />
       <Navbar />
 
       <section className="py-12 bg-muted/30">

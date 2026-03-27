@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { InteractiveGlobe } from "@/components/ui/interactive-globe";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
@@ -101,6 +102,11 @@ export default function GlobalNetwork() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Global Scholarship Network"
+        description="Explore NextScholar's worldwide scholarship network spanning 50+ countries and 150+ universities. Find opportunities near you."
+        canonical="/global-network"
+      />
       <Navbar />
 
       {/* Hero with Globe */}

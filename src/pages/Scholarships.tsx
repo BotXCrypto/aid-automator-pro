@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { FilterBar } from "@/components/FilterBar";
 import { ScholarshipCard } from "@/components/ScholarshipCard";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { api } from "@/services/api";
 import type { Scholarship } from "@/components/ScholarshipCard";
 import { Input } from "@/components/ui/input";
@@ -85,6 +86,11 @@ export default function Scholarships() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Scholarships"
+        description="Browse hundreds of fully funded scholarships for international students. Filter by country, degree level, and funding type."
+        canonical="/scholarships"
+      />
       <Navbar />
 
       <section className="py-12 bg-muted/30">

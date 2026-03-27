@@ -6,6 +6,7 @@ import { FilterBar } from "@/components/FilterBar";
 import { ScholarshipCard } from "@/components/ScholarshipCard";
 import { EmailSubscribe } from "@/components/EmailSubscribe";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { api } from "@/services/api";
 import type { Scholarship } from "@/components/ScholarshipCard";
 import { Button } from "@/components/ui/button";
@@ -89,6 +90,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="NextScholar"
+        description="Find fully funded scholarships, internships & education news updated daily. Discover opportunities for Bachelor's, Master's & PhD programs worldwide."
+        canonical="/"
+      />
       <Navbar />
       <Hero onSearch={setSearchQuery} />
       {/* Global Network Section */}
