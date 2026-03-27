@@ -132,7 +132,7 @@ export default function GlobalNetwork() {
                 {stats.map((stat) => (
                   <div key={stat.label} className="text-center">
                     <stat.icon className="w-5 h-5 mx-auto mb-1 text-secondary" />
-                    <p className="text-2xl font-bold">{stat.value}</p>
+                    <p className="text-2xl font-bold"><AnimatedCounter target={stat.target} suffix={stat.suffix} /></p>
                     <p className="text-xs text-primary-foreground/60">{stat.label}</p>
                   </div>
                 ))}
