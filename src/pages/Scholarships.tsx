@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { FilterBar } from "@/components/FilterBar";
 import { ScholarshipCard } from "@/components/ScholarshipCard";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { api } from "@/services/api";
 import type { Scholarship } from "@/components/ScholarshipCard";
 import { Input } from "@/components/ui/input";

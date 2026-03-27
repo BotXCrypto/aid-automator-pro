@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { InteractiveGlobe } from "@/components/ui/interactive-globe";
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";

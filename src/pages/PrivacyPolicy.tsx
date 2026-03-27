@@ -1,9 +1,15 @@
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 
 export default function PrivacyPolicy() {
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Privacy Policy"
+        description="Read NextScholar's privacy policy to understand how we collect, use, and protect your personal data."
+        canonical="/privacy"
+      />
       <Navbar />
       
       <section className="py-12">
