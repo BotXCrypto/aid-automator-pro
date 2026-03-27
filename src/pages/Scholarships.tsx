@@ -85,12 +85,12 @@ export default function Scholarships() {
   };
 
   return (
+    <div className="min-h-screen bg-background">
       <SEO
         title="Scholarships"
         description="Browse hundreds of fully funded scholarships for international students. Filter by country, degree level, and funding type."
         canonical="/scholarships"
       />
-    <div className="min-h-screen bg-background">
       <Navbar />
 
       <section className="py-12 bg-muted/30">
