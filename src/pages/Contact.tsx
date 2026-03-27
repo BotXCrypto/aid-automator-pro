@@ -112,6 +112,11 @@ export default function Contact() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Contact Us"
+        description="Get in touch with NextScholar. We're here to help with scholarship questions, partnership inquiries, and support."
+        canonical="/contact"
+      />
       <Navbar />
       
       {/* About removed from here - will re-insert below contact form */}

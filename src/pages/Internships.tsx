@@ -73,6 +73,11 @@ export default function Internships() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Internships"
+        description="Discover top internship opportunities worldwide. Find paid and fully funded internships for students and graduates."
+        canonical="/internships"
+      />
       <Navbar />
 
       <section className="py-12 bg-muted/30">

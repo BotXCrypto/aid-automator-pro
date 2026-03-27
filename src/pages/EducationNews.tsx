@@ -137,6 +137,11 @@ export default function EducationNews() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Education News"
+        description="Stay updated with the latest education news, study abroad tips, visa updates, and scholarship announcements from around the world."
+        canonical="/news"
+      />
       <Navbar />
       
       <section className="py-12 bg-muted/30">

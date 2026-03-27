@@ -90,6 +90,11 @@ const Index = () => {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="NextScholar"
+        description="Find fully funded scholarships, internships & education news updated daily. Discover opportunities for Bachelor's, Master's & PhD programs worldwide."
+        canonical="/"
+      />
       <Navbar />
       <Hero onSearch={setSearchQuery} />
       {/* Global Network Section */}

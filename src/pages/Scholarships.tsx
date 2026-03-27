@@ -85,6 +85,11 @@ export default function Scholarships() {
   };
 
   return (
+      <SEO
+        title="Scholarships"
+        description="Browse hundreds of fully funded scholarships for international students. Filter by country, degree level, and funding type."
+        canonical="/scholarships"
+      />
     <div className="min-h-screen bg-background">
       <Navbar />
 

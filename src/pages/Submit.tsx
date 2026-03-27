@@ -131,6 +131,11 @@ export default function Submit() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title="Submit a Scholarship"
+        description="Submit a scholarship, internship, or education news to NextScholar. Help students discover new opportunities worldwide."
+        canonical="/submit"
+      />
       <Navbar />
       
       <section className="py-12">
