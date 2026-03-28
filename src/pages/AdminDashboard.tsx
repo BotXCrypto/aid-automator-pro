@@ -691,6 +691,7 @@ export default function AdminDashboard() {
                           <SelectContent>
                             <SelectItem value="scholarship">Scholarship</SelectItem>
                             <SelectItem value="internship">Internship</SelectItem>
+                            <SelectItem value="job">Job</SelectItem>
                             <SelectItem value="news">News</SelectItem>
                           </SelectContent>
                         </Select>
