@@ -389,7 +389,7 @@ export default function Submit() {
 
               <Button type="submit" size="lg" disabled={submitting} className="w-full bg-gradient-accent hover:bg-gradient-hover transition-all">
                 <Send className="w-5 h-5 mr-2" />
-                {submitting ? "Submitting..." : `Submit ${category === "scholarship" ? "Scholarship" : category === "internship" ? "Internship" : "News"}`}
+                {submitting ? "Submitting..." : `Submit ${category === "scholarship" ? "Scholarship" : category === "internship" ? "Internship" : category === "job" ? "Job" : "News"}`}
               </Button>
             </form>
           </div>
