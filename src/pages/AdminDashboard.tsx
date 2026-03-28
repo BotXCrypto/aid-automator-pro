@@ -591,7 +591,7 @@ export default function AdminDashboard() {
               <Card>
                 <CardHeader>
                   <CardTitle>All Posts</CardTitle>
-                  <CardDescription>Manage scholarships, internships, and news</CardDescription>
+                  <CardDescription>Manage scholarships, internships, jobs, and news</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Table>
