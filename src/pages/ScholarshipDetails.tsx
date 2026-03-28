@@ -260,6 +260,11 @@ export default function ScholarshipDetails() {
             </div>
           </div>
 
+          {/* Comments Section */}
+          <div className="mb-8">
+            <CommentSection postId={id!} />
+          </div>
+
           {/* Similar Scholarships Section */}
           {similarScholarships.length > 0 && (
             <div className="mt-12">

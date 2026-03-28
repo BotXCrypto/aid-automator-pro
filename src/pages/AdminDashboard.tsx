@@ -661,7 +661,7 @@ export default function AdminDashboard() {
                 <CardHeader>
                   <CardTitle>Add New Post</CardTitle>
                   <CardDescription>
-                    Create a new scholarship, internship, or news post
+                    Create a new scholarship, internship, job, or news post
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
