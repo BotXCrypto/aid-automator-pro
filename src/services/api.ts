@@ -134,5 +134,34 @@ export const api = {
       console.error("Error fetching internships:", error);
       return [];
     }
+  },
+
+  getJobs: async (): Promise<Scholarship[]> => {
+    try {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("*")
+        .eq("status", "approved")
+        .eq("category", "job" as any)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      return (data || []).map((p: any) => ({
+        id: p.id,
+        title: p.title,
+        university: p.university || "",
+        country: p.country || "",
+        degree: humanizeDegree(p.degree),
+        deadline: p.deadline || "",
+        funding: humanizeFunding(p.funding),
+        description: p.description || "",
+        featured: !!p.featured,
+        urgent: !!p.urgent,
+      } as Scholarship));
+    } catch (error) {
+      console.error("Error fetching jobs:", error);
+      return [];
+    }
   }
 };

@@ -8,6 +8,7 @@ import { ChatBot } from "./components/ChatBot";
 import Index from "./pages/Index";
 import Scholarships from "./pages/Scholarships";
 import Internships from "./pages/Internships";
+import Jobs from "./pages/Jobs";
 import ScholarshipDetails from "./pages/ScholarshipDetails";
 import GuideDetails from "./pages/GuideDetails";
 import EducationNews from "./pages/EducationNews";
@@ -38,6 +39,7 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/scholarships" element={<Scholarships />} />
             <Route path="/internships" element={<Internships />} />
+            <Route path="/jobs" element={<Jobs />} />
             <Route path="/scholarship/:id" element={<ScholarshipDetails />} />
             <Route path="/guides/:id" element={<GuideDetails />} />
             <Route path="/news" element={<EducationNews />} />

@@ -53,15 +53,15 @@ export default function Submit() {
     const finalCountry = country === "Other" ? customCountry.trim() : country;
 
     // Validate required fields based on category
-    const isScholarshipOrInternship = category === "scholarship" || category === "internship";
+    const needsDetails = category === "scholarship" || category === "internship" || category === "job";
     
     if (!title.trim() || !description.trim()) {
       toast({ title: "Error", description: "Please fill all required fields", variant: "destructive" });
       return;
     }
 
-    if (isScholarshipOrInternship && (!university.trim() || !finalCountry || !degree || !funding || !deadline)) {
-      toast({ title: "Error", description: "Please fill all required fields for scholarship/internship", variant: "destructive" });
+    if (needsDetails && (!university.trim() || !finalCountry || !degree || !funding || !deadline)) {
+      toast({ title: "Error", description: "Please fill all required fields for this post type", variant: "destructive" });
       return;
     }
 
@@ -74,12 +74,12 @@ export default function Submit() {
         setUploadingImage(true);
         const filePath = `submissions/${Date.now()}_${imageFile.name}`;
         const { data: uploadData, error: uploadError } = await supabase.storage
-          .from("images")
+          .from("admin-uploads")
           .upload(filePath, imageFile, { cacheControl: "3600", upsert: false });
 
         if (uploadError) throw uploadError;
 
-        const { data: publicData } = supabase.storage.from("images").getPublicUrl(filePath);
+        const { data: publicData } = supabase.storage.from("admin-uploads").getPublicUrl(filePath);
         image_url = publicData?.publicUrl ?? null;
         setUploadingImage(false);
       }
@@ -127,7 +127,7 @@ export default function Submit() {
     }
   };
 
-  const isScholarshipOrInternship = category === "scholarship" || category === "internship";
+  const needsDetails = category === "scholarship" || category === "internship" || category === "job";
 
   return (
     <div className="min-h-screen bg-background">
@@ -158,6 +158,7 @@ export default function Submit() {
                   <SelectContent>
                     <SelectItem value="scholarship">Scholarship</SelectItem>
                     <SelectItem value="internship">Internship</SelectItem>
+                    <SelectItem value="job">Job</SelectItem>
                     <SelectItem value="news">Education News</SelectItem>
                   </SelectContent>
                 </Select>
@@ -165,7 +166,7 @@ export default function Submit() {
 
               <div className="space-y-2">
                 <Label htmlFor="title">
-                  {category === "scholarship" ? "Scholarship" : category === "internship" ? "Internship" : "News"} Title *
+                  {category === "scholarship" ? "Scholarship" : category === "internship" ? "Internship" : category === "job" ? "Job" : "News"} Title *
                 </Label>
                 <Input 
                   id="title" 
@@ -175,14 +176,15 @@ export default function Submit() {
                   placeholder={
                     category === "scholarship" ? "e.g., Full Scholarship for Masters in Computer Science" :
                     category === "internship" ? "e.g., Summer Internship at Google" :
+                    category === "job" ? "e.g., Software Engineer at Microsoft" :
                     "e.g., New Student Visa Rules for Canada"
-                  } 
+                  }
                   required 
                   className="rounded-xl" 
                 />
               </div>
 
-              {isScholarshipOrInternship && (
+              {needsDetails && (
                 <div className="space-y-2">
                   <Label htmlFor="university">University/Organization *</Label>
                   <Input 
@@ -197,7 +199,7 @@ export default function Submit() {
                 </div>
               )}
 
-              {isScholarshipOrInternship && (
+              {needsDetails && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="country">Country *</Label>
@@ -297,7 +299,7 @@ export default function Submit() {
                 </div>
               )}
 
-              {isScholarshipOrInternship && (
+              {needsDetails && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="funding">Funding Type *</Label>
@@ -387,7 +389,7 @@ export default function Submit() {
 
               <Button type="submit" size="lg" disabled={submitting} className="w-full bg-gradient-accent hover:bg-gradient-hover transition-all">
                 <Send className="w-5 h-5 mr-2" />
-                {submitting ? "Submitting..." : `Submit ${category === "scholarship" ? "Scholarship" : category === "internship" ? "Internship" : "News"}`}
+                {submitting ? "Submitting..." : `Submit ${category === "scholarship" ? "Scholarship" : category === "internship" ? "Internship" : category === "job" ? "Job" : "News"}`}
               </Button>
             </form>
           </div>
