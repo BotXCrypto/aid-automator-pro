@@ -5,6 +5,7 @@ import { Footer } from "@/components/Footer";
 import { ScholarshipCard } from "@/components/ScholarshipCard";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { SEO } from "@/components/SEO";
 import { api } from "@/services/api";
 import type { Scholarship } from "@/components/ScholarshipCard";
 import { 
