@@ -127,7 +127,7 @@ export default function Submit() {
     }
   };
 
-  const isScholarshipOrInternship = category === "scholarship" || category === "internship";
+  const needsDetails = category === "scholarship" || category === "internship" || category === "job";
 
   return (
     <div className="min-h-screen bg-background">
