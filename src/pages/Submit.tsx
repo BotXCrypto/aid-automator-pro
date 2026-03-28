@@ -158,6 +158,7 @@ export default function Submit() {
                   <SelectContent>
                     <SelectItem value="scholarship">Scholarship</SelectItem>
                     <SelectItem value="internship">Internship</SelectItem>
+                    <SelectItem value="job">Job</SelectItem>
                     <SelectItem value="news">Education News</SelectItem>
                   </SelectContent>
                 </Select>
