@@ -522,6 +522,14 @@ export default function AdminDashboard() {
                     <p className="text-3xl font-bold text-foreground">{stats.internships}</p>
                   </CardContent>
                 </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Jobs</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-bold text-foreground">{stats.jobs}</p>
+                  </CardContent>
+                </Card>
           </div>
 
           {/* AI Integration Placeholders */}
