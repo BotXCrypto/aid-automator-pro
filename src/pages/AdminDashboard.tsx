@@ -81,6 +81,7 @@ export default function AdminDashboard() {
     approved: 0,
     scholarships: 0,
     internships: 0,
+    jobs: 0,
   });
 
   // New post form state
