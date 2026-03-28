@@ -198,7 +198,7 @@ export type Database = {
         | "undergraduate"
         | "postgraduate"
       funding_type: "fully_funded" | "partially_funded" | "not_funded"
-      post_category: "scholarship" | "internship" | "news"
+      post_category: "scholarship" | "internship" | "news" | "job"
       post_status: "pending" | "approved" | "rejected"
     }
     CompositeTypes: {
@@ -336,7 +336,7 @@ export const Constants = {
         "postgraduate",
       ],
       funding_type: ["fully_funded", "partially_funded", "not_funded"],
-      post_category: ["scholarship", "internship", "news"],
+      post_category: ["scholarship", "internship", "news", "job"],
       post_status: ["pending", "approved", "rejected"],
     },
   },
