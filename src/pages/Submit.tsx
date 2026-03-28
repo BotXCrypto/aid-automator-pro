@@ -176,8 +176,9 @@ export default function Submit() {
                   placeholder={
                     category === "scholarship" ? "e.g., Full Scholarship for Masters in Computer Science" :
                     category === "internship" ? "e.g., Summer Internship at Google" :
+                    category === "job" ? "e.g., Software Engineer at Microsoft" :
                     "e.g., New Student Visa Rules for Canada"
-                  } 
+                  }
                   required 
                   className="rounded-xl" 
                 />
