@@ -184,7 +184,7 @@ export default function Submit() {
                 />
               </div>
 
-              {isScholarshipOrInternship && (
+              {needsDetails && (
                 <div className="space-y-2">
                   <Label htmlFor="university">University/Organization *</Label>
                   <Input 
@@ -199,7 +199,7 @@ export default function Submit() {
                 </div>
               )}
 
-              {isScholarshipOrInternship && (
+              {needsDetails && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="country">Country *</Label>
@@ -299,7 +299,7 @@ export default function Submit() {
                 </div>
               )}
 
-              {isScholarshipOrInternship && (
+              {needsDetails && (
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="funding">Funding Type *</Label>
