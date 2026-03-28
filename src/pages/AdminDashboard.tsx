@@ -278,12 +278,12 @@ export default function AdminDashboard() {
         setNewPostUploadingImage(true);
         const filePath = `posts/${Date.now()}_${newPostImageFile.name}`;
         const { data: uploadData, error: uploadError } = await supabase.storage
-          .from("images")
+          .from("admin-uploads")
           .upload(filePath, newPostImageFile, { cacheControl: "3600", upsert: false });
 
         if (uploadError) throw uploadError;
 
-        const { data: publicData } = supabase.storage.from("images").getPublicUrl(filePath);
+        const { data: publicData } = supabase.storage.from("admin-uploads").getPublicUrl(filePath);
         image_url = publicData?.publicUrl ?? image_url;
         setNewPostUploadingImage(false);
       }
