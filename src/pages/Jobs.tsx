@@ -9,7 +9,6 @@ import type { Scholarship } from "@/components/ScholarshipCard";
 import { Briefcase } from "lucide-react";
 
 export default function Jobs() {
-  const [searchQuery, setSearchQuery] = useState("");
   const [selectedCountry, setSelectedCountry] = useState("all");
   const [selectedDegree, setSelectedDegree] = useState("all");
   const [selectedFunding, setSelectedFunding] = useState("all");
@@ -25,19 +24,12 @@ export default function Jobs() {
 
   const filteredJobs = useMemo(() => {
     return jobs.filter((job) => {
-      const matchesSearch =
-        !searchQuery ||
-        job.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.university.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        job.country.toLowerCase().includes(searchQuery.toLowerCase());
       const matchesCountry = selectedCountry === "all" || job.country === selectedCountry;
       const matchesDegree = selectedDegree === "all" || job.degree === selectedDegree;
       const matchesFunding = selectedFunding === "all" || job.funding === selectedFunding;
-      return matchesSearch && matchesCountry && matchesDegree && matchesFunding;
+      return matchesCountry && matchesDegree && matchesFunding;
     });
-  }, [jobs, searchQuery, selectedCountry, selectedDegree, selectedFunding]);
-
-  const countries = [...new Set(jobs.map((j) => j.country).filter(Boolean))];
+  }, [jobs, selectedCountry, selectedDegree, selectedFunding]);
 
   return (
     <div className="min-h-screen bg-background">
@@ -64,15 +56,9 @@ export default function Jobs() {
           </div>
 
           <FilterBar
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-            selectedCountry={selectedCountry}
             onCountryChange={setSelectedCountry}
-            selectedDegree={selectedDegree}
             onDegreeChange={setSelectedDegree}
-            selectedFunding={selectedFunding}
             onFundingChange={setSelectedFunding}
-            countries={countries}
           />
 
           {loading ? (
