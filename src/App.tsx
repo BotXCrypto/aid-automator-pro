@@ -8,6 +8,7 @@ import { ChatBot } from "./components/ChatBot";
 import Index from "./pages/Index";
 import Scholarships from "./pages/Scholarships";
 import Internships from "./pages/Internships";
+import Jobs from "./pages/Jobs";
 import ScholarshipDetails from "./pages/ScholarshipDetails";
 import GuideDetails from "./pages/GuideDetails";
 import EducationNews from "./pages/EducationNews";
