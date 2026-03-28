@@ -153,12 +153,14 @@ export default function AdminDashboard() {
       const approvedCount = (postsData || []).filter((p) => p.status === "approved").length;
       const scholarshipCount = (postsData || []).filter((p) => p.category === "scholarship").length;
       const internshipCount = (postsData || []).filter((p) => p.category === "internship").length;
+      const jobCount = (postsData || []).filter((p) => p.category === "job").length;
 
       setStats({
         pending: pendingCount + (submissionsData || []).length,
         approved: approvedCount,
         scholarships: scholarshipCount,
         internships: internshipCount,
+        jobs: jobCount,
       });
     } catch (error: any) {
       toast({
