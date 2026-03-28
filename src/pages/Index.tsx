@@ -95,6 +95,24 @@ const Index = () => {
         description="Find fully funded scholarships, internships & education news updated daily. Discover opportunities for Bachelor's, Master's & PhD programs worldwide."
         canonical="/"
       />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Organization",
+            name: "NextScholar",
+            url: "https://nextscholar.com",
+            description: "Global platform connecting students with fully funded scholarships, internships, and education opportunities worldwide.",
+            sameAs: [],
+            potentialAction: {
+              "@type": "SearchAction",
+              target: "https://nextscholar.com/scholarships?q={search_term_string}",
+              "query-input": "required name=search_term_string",
+            },
+          }),
+        }}
+      />
       <Navbar />
       <Hero onSearch={setSearchQuery} />
       {/* Global Network Section */}
