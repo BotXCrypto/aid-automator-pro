@@ -79,7 +79,7 @@ export default function Submit() {
 
         if (uploadError) throw uploadError;
 
-        const { data: publicData } = supabase.storage.from("images").getPublicUrl(filePath);
+        const { data: publicData } = supabase.storage.from("admin-uploads").getPublicUrl(filePath);
         image_url = publicData?.publicUrl ?? null;
         setUploadingImage(false);
       }
