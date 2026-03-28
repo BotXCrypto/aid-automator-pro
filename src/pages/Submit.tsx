@@ -74,7 +74,7 @@ export default function Submit() {
         setUploadingImage(true);
         const filePath = `submissions/${Date.now()}_${imageFile.name}`;
         const { data: uploadData, error: uploadError } = await supabase.storage
-          .from("images")
+          .from("admin-uploads")
           .upload(filePath, imageFile, { cacheControl: "3600", upsert: false });
 
         if (uploadError) throw uploadError;
