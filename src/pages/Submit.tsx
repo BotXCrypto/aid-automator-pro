@@ -166,7 +166,7 @@ export default function Submit() {
 
               <div className="space-y-2">
                 <Label htmlFor="title">
-                  {category === "scholarship" ? "Scholarship" : category === "internship" ? "Internship" : "News"} Title *
+                  {category === "scholarship" ? "Scholarship" : category === "internship" ? "Internship" : category === "job" ? "Job" : "News"} Title *
                 </Label>
                 <Input 
                   id="title" 
