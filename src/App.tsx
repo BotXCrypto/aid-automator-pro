@@ -39,6 +39,7 @@ function App() {
             <Route path="/" element={<Index />} />
             <Route path="/scholarships" element={<Scholarships />} />
             <Route path="/internships" element={<Internships />} />
+            <Route path="/jobs" element={<Jobs />} />
             <Route path="/scholarship/:id" element={<ScholarshipDetails />} />
             <Route path="/guides/:id" element={<GuideDetails />} />
             <Route path="/news" element={<EducationNews />} />
