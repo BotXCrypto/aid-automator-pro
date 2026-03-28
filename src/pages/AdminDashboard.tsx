@@ -451,7 +451,7 @@ export default function AdminDashboard() {
               Admin Dashboard
             </h1>
               <p className="text-muted-foreground">
-                Manage scholarships, internships, and submissions
+                Manage scholarships, internships, jobs, and submissions
               </p>
             </div>
             <Button variant="outline" onClick={handleSignOut}>
