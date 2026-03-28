@@ -81,6 +81,7 @@ export default function AdminDashboard() {
     approved: 0,
     scholarships: 0,
     internships: 0,
+    jobs: 0,
   });
 
   // New post form state
@@ -152,12 +153,14 @@ export default function AdminDashboard() {
       const approvedCount = (postsData || []).filter((p) => p.status === "approved").length;
       const scholarshipCount = (postsData || []).filter((p) => p.category === "scholarship").length;
       const internshipCount = (postsData || []).filter((p) => p.category === "internship").length;
+      const jobCount = (postsData || []).filter((p) => p.category === "job").length;
 
       setStats({
         pending: pendingCount + (submissionsData || []).length,
         approved: approvedCount,
         scholarships: scholarshipCount,
         internships: internshipCount,
+        jobs: jobCount,
       });
     } catch (error: any) {
       toast({
@@ -275,12 +278,12 @@ export default function AdminDashboard() {
         setNewPostUploadingImage(true);
         const filePath = `posts/${Date.now()}_${newPostImageFile.name}`;
         const { data: uploadData, error: uploadError } = await supabase.storage
-          .from("images")
+          .from("admin-uploads")
           .upload(filePath, newPostImageFile, { cacheControl: "3600", upsert: false });
 
         if (uploadError) throw uploadError;
 
-        const { data: publicData } = supabase.storage.from("images").getPublicUrl(filePath);
+        const { data: publicData } = supabase.storage.from("admin-uploads").getPublicUrl(filePath);
         image_url = publicData?.publicUrl ?? image_url;
         setNewPostUploadingImage(false);
       }
@@ -448,7 +451,7 @@ export default function AdminDashboard() {
               Admin Dashboard
             </h1>
               <p className="text-muted-foreground">
-                Manage scholarships, internships, and submissions
+                Manage scholarships, internships, jobs, and submissions
               </p>
             </div>
             <Button variant="outline" onClick={handleSignOut}>
@@ -486,7 +489,7 @@ export default function AdminDashboard() {
             </TabsList>
 
             <TabsContent value="overview">
-              <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
+              <div className="grid grid-cols-1 md:grid-cols-5 gap-6 mb-8">
                 <Card>
                   <CardHeader>
                     <CardTitle className="text-lg">Pending Approvals</CardTitle>
@@ -517,6 +520,14 @@ export default function AdminDashboard() {
                   </CardHeader>
                   <CardContent>
                     <p className="text-3xl font-bold text-foreground">{stats.internships}</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Jobs</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-3xl font-bold text-foreground">{stats.jobs}</p>
                   </CardContent>
                 </Card>
           </div>
@@ -580,7 +591,7 @@ export default function AdminDashboard() {
               <Card>
                 <CardHeader>
                   <CardTitle>All Posts</CardTitle>
-                  <CardDescription>Manage scholarships, internships, and news</CardDescription>
+                  <CardDescription>Manage scholarships, internships, jobs, and news</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <Table>
@@ -650,7 +661,7 @@ export default function AdminDashboard() {
                 <CardHeader>
                   <CardTitle>Add New Post</CardTitle>
                   <CardDescription>
-                    Create a new scholarship, internship, or news post
+                    Create a new scholarship, internship, job, or news post
                   </CardDescription>
                 </CardHeader>
                 <CardContent>
@@ -680,6 +691,7 @@ export default function AdminDashboard() {
                           <SelectContent>
                             <SelectItem value="scholarship">Scholarship</SelectItem>
                             <SelectItem value="internship">Internship</SelectItem>
+                            <SelectItem value="job">Job</SelectItem>
                             <SelectItem value="news">News</SelectItem>
                           </SelectContent>
                         </Select>
