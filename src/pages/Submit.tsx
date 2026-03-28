@@ -53,15 +53,15 @@ export default function Submit() {
     const finalCountry = country === "Other" ? customCountry.trim() : country;
 
     // Validate required fields based on category
-    const isScholarshipOrInternship = category === "scholarship" || category === "internship";
+    const needsDetails = category === "scholarship" || category === "internship" || category === "job";
     
     if (!title.trim() || !description.trim()) {
       toast({ title: "Error", description: "Please fill all required fields", variant: "destructive" });
       return;
     }
 
-    if (isScholarshipOrInternship && (!university.trim() || !finalCountry || !degree || !funding || !deadline)) {
-      toast({ title: "Error", description: "Please fill all required fields for scholarship/internship", variant: "destructive" });
+    if (needsDetails && (!university.trim() || !finalCountry || !degree || !funding || !deadline)) {
+      toast({ title: "Error", description: "Please fill all required fields for this post type", variant: "destructive" });
       return;
     }
 
