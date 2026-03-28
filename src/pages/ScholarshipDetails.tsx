@@ -110,6 +110,38 @@ export default function ScholarshipDetails() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEO
+        title={scholarship.title}
+        description={`${scholarship.funding} ${scholarship.degree} scholarship at ${scholarship.university}, ${scholarship.country}. Deadline: ${new Date(scholarship.deadline).toLocaleDateString()}. ${scholarship.description?.slice(0, 100) || ""}`}
+        canonical={`/scholarships/${id}`}
+        type="article"
+      />
+      {/* JSON-LD Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "EducationalOccupationalProgram",
+            name: scholarship.title,
+            description: scholarship.description,
+            provider: {
+              "@type": "EducationalOrganization",
+              name: scholarship.university,
+              address: { "@type": "PostalAddress", addressCountry: scholarship.country },
+            },
+            educationalProgramMode: scholarship.degree,
+            offers: {
+              "@type": "Offer",
+              category: scholarship.funding,
+              availability: new Date(scholarship.deadline) > new Date()
+                ? "https://schema.org/InStock"
+                : "https://schema.org/SoldOut",
+            },
+            applicationDeadline: scholarship.deadline,
+          }),
+        }}
+      />
       <Navbar />
       
       <article className="py-12">
