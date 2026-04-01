@@ -124,7 +124,7 @@ export default function Contact() {
       {/* Contact form and contact methods */}
       <section className="py-6">
         <div className="container mx-auto px-4 max-w-3xl">
-          <h2 className="text-3xl font-heading font-bold text-foreground mb-4">Contact Us</h2>
+          <h1 className="text-3xl md:text-4xl font-heading font-bold text-foreground mb-4">Contact Us</h1>
           <p className="text-xl text-muted-foreground mb-6">Have questions? We'd love to hear from you</p>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
