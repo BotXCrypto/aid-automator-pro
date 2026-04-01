@@ -82,7 +82,20 @@ export default function AdminDashboard() {
     scholarships: 0,
     internships: 0,
     jobs: 0,
+    comments: 0,
   });
+
+  type Comment = {
+    id: string;
+    post_id: string;
+    user_id: string;
+    content: string;
+    author_name: string | null;
+    created_at: string;
+    posts?: { title: string } | null;
+  };
+
+  const [comments, setComments] = useState<Comment[]>([]);
 
   // New post form state
   const [newPost, setNewPost] = useState({
@@ -148,6 +161,15 @@ export default function AdminDashboard() {
       if (submissionsError) throw submissionsError;
       setSubmissions(submissionsData || []);
 
+      // Fetch comments
+      const { data: commentsData, error: commentsError } = await supabase
+        .from("comments")
+        .select("*, posts(title)")
+        .order("created_at", { ascending: false });
+
+      if (commentsError) console.warn("Error fetching comments:", commentsError);
+      setComments((commentsData as unknown as Comment[]) || []);
+
       // Calculate stats
       const pendingCount = (postsData || []).filter((p) => p.status === "pending").length;
       const approvedCount = (postsData || []).filter((p) => p.status === "approved").length;
@@ -161,6 +183,7 @@ export default function AdminDashboard() {
         scholarships: scholarshipCount,
         internships: internshipCount,
         jobs: jobCount,
+        comments: (commentsData || []).length,
       });
     } catch (error: any) {
       toast({
@@ -485,6 +508,10 @@ export default function AdminDashboard() {
               <TabsTrigger value="submissions">
                 <Clock className="w-4 h-4 mr-2" />
                 Submissions ({submissions.length})
+              </TabsTrigger>
+              <TabsTrigger value="comments">
+                <MessageSquare className="w-4 h-4 mr-2" />
+                Comments ({comments.length})
               </TabsTrigger>
             </TabsList>
 
@@ -1065,6 +1092,73 @@ export default function AdminDashboard() {
                   </Table>
                 </CardContent>
             </Card>
+            </TabsContent>
+
+            {/* Comments Moderation Tab */}
+            <TabsContent value="comments">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Comment Moderation</CardTitle>
+                  <CardDescription>Review and manage all comments across posts</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {comments.length === 0 ? (
+                    <p className="text-muted-foreground text-center py-8">No comments yet</p>
+                  ) : (
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Author</TableHead>
+                          <TableHead>Comment</TableHead>
+                          <TableHead>Post</TableHead>
+                          <TableHead>Date</TableHead>
+                          <TableHead>Actions</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {comments.map((comment) => (
+                          <TableRow key={comment.id}>
+                            <TableCell className="font-medium">
+                              {comment.author_name || "Anonymous"}
+                            </TableCell>
+                            <TableCell className="max-w-xs truncate">
+                              {comment.content}
+                            </TableCell>
+                            <TableCell className="max-w-[200px] truncate">
+                              {comment.posts?.title || comment.post_id}
+                            </TableCell>
+                            <TableCell className="whitespace-nowrap">
+                              {new Date(comment.created_at).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={async () => {
+                                  try {
+                                    const { error } = await supabase
+                                      .from("comments")
+                                      .delete()
+                                      .eq("id", comment.id);
+                                    if (error) throw error;
+                                    toast({ title: "Comment deleted" });
+                                    fetchData();
+                                  } catch (err: any) {
+                                    toast({ title: "Error", description: err.message, variant: "destructive" });
+                                  }
+                                }}
+                              >
+                                <Trash2 className="w-4 h-4 mr-1" />
+                                Delete
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  )}
+                </CardContent>
+              </Card>
             </TabsContent>
           </Tabs>
         </div>

@@ -1,6 +1,7 @@
 import { useParams, Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { SEO } from "@/components/SEO";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeft, Clock, Calendar, User, Share2, Facebook, Twitter, Send, MessageCircle } from "lucide-react";
@@ -51,6 +52,12 @@ export default function GuideDetails() {
 
     return (
         <div className="min-h-screen bg-background">
+            <SEO
+                title={guide.title}
+                description={guide.content.replace(/<[^>]*>/g, '').slice(0, 155)}
+                canonical={`/guides/${guide.id}`}
+                type="article"
+            />
             <Navbar />
 
             <article className="py-12">

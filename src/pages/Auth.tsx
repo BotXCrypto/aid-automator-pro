@@ -78,7 +78,7 @@ export default function Auth() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-b from-primary to-secondary p-4">
       <Card className="w-full max-w-md">
         <CardHeader>
-          <CardTitle className="text-2xl font-heading">NextScholar Admin</CardTitle>
+          <h1 className="text-2xl font-heading font-bold">NextScholar Admin</h1>
           <CardDescription>Login or create an account to access the admin panel</CardDescription>
         </CardHeader>
         <CardContent>

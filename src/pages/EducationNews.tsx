@@ -139,7 +139,7 @@ export default function EducationNews() {
     <div className="min-h-screen bg-background">
       <SEO
         title="Education News"
-        description="Stay updated with the latest education news, study abroad tips, visa updates, and scholarship announcements from around the world."
+        description="Latest education news, visa updates, and study abroad tips. Stay informed about scholarship announcements worldwide."
         canonical="/news"
       />
       <Navbar />
