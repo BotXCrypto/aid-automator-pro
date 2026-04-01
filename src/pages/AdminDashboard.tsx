@@ -161,6 +161,15 @@ export default function AdminDashboard() {
       if (submissionsError) throw submissionsError;
       setSubmissions(submissionsData || []);
 
+      // Fetch comments
+      const { data: commentsData, error: commentsError } = await supabase
+        .from("comments")
+        .select("*, posts(title)")
+        .order("created_at", { ascending: false });
+
+      if (commentsError) console.warn("Error fetching comments:", commentsError);
+      setComments((commentsData as unknown as Comment[]) || []);
+
       // Calculate stats
       const pendingCount = (postsData || []).filter((p) => p.status === "pending").length;
       const approvedCount = (postsData || []).filter((p) => p.status === "approved").length;
@@ -174,6 +183,7 @@ export default function AdminDashboard() {
         scholarships: scholarshipCount,
         internships: internshipCount,
         jobs: jobCount,
+        comments: (commentsData || []).length,
       });
     } catch (error: any) {
       toast({
