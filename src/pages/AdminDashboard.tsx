@@ -509,6 +509,10 @@ export default function AdminDashboard() {
                 <Clock className="w-4 h-4 mr-2" />
                 Submissions ({submissions.length})
               </TabsTrigger>
+              <TabsTrigger value="comments">
+                <MessageSquare className="w-4 h-4 mr-2" />
+                Comments ({comments.length})
+              </TabsTrigger>
             </TabsList>
 
             <TabsContent value="overview">
