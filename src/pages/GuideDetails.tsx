@@ -51,6 +51,12 @@ export default function GuideDetails() {
 
     return (
         <div className="min-h-screen bg-background">
+            <SEO
+                title={guide.title}
+                description={guide.content.replace(/<[^>]*>/g, '').slice(0, 155)}
+                canonical={`/guides/${guide.id}`}
+                type="article"
+            />
             <Navbar />
 
             <article className="py-12">
