@@ -82,7 +82,20 @@ export default function AdminDashboard() {
     scholarships: 0,
     internships: 0,
     jobs: 0,
+    comments: 0,
   });
+
+  type Comment = {
+    id: string;
+    post_id: string;
+    user_id: string;
+    content: string;
+    author_name: string | null;
+    created_at: string;
+    posts?: { title: string } | null;
+  };
+
+  const [comments, setComments] = useState<Comment[]>([]);
 
   // New post form state
   const [newPost, setNewPost] = useState({
