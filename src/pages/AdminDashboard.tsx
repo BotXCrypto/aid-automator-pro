@@ -1093,6 +1093,73 @@ export default function AdminDashboard() {
                 </CardContent>
             </Card>
             </TabsContent>
+
+            {/* Comments Moderation Tab */}
+            <TabsContent value="comments">
+              <Card>
+                <CardHeader>
+                  <CardTitle>Comment Moderation</CardTitle>
+                  <CardDescription>Review and manage all comments across posts</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  {comments.length === 0 ? (
+                    <p className="text-muted-foreground text-center py-8">No comments yet</p>
+                  ) : (
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>Author</TableHead>
+                          <TableHead>Comment</TableHead>
+                          <TableHead>Post</TableHead>
+                          <TableHead>Date</TableHead>
+                          <TableHead>Actions</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {comments.map((comment) => (
+                          <TableRow key={comment.id}>
+                            <TableCell className="font-medium">
+                              {comment.author_name || "Anonymous"}
+                            </TableCell>
+                            <TableCell className="max-w-xs truncate">
+                              {comment.content}
+                            </TableCell>
+                            <TableCell className="max-w-[200px] truncate">
+                              {comment.posts?.title || comment.post_id}
+                            </TableCell>
+                            <TableCell className="whitespace-nowrap">
+                              {new Date(comment.created_at).toLocaleDateString()}
+                            </TableCell>
+                            <TableCell>
+                              <Button
+                                size="sm"
+                                variant="destructive"
+                                onClick={async () => {
+                                  try {
+                                    const { error } = await supabase
+                                      .from("comments")
+                                      .delete()
+                                      .eq("id", comment.id);
+                                    if (error) throw error;
+                                    toast({ title: "Comment deleted" });
+                                    fetchData();
+                                  } catch (err: any) {
+                                    toast({ title: "Error", description: err.message, variant: "destructive" });
+                                  }
+                                }}
+                              >
+                                <Trash2 className="w-4 h-4 mr-1" />
+                                Delete
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  )}
+                </CardContent>
+              </Card>
+            </TabsContent>
           </Tabs>
         </div>
       </section>

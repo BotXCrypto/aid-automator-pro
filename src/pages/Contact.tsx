@@ -114,7 +114,7 @@ export default function Contact() {
     <div className="min-h-screen bg-background">
       <SEO
         title="Contact Us"
-        description="Get in touch with NextScholar. We're here to help with scholarship questions, partnership inquiries, and support."
+        description="Contact NextScholar for scholarship questions, partnership inquiries, and student support. Reach us via email, WhatsApp, or our contact form."
         canonical="/contact"
       />
       <Navbar />

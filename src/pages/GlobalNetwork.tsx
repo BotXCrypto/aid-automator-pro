@@ -104,7 +104,7 @@ export default function GlobalNetwork() {
     <div className="min-h-screen bg-background">
       <SEO
         title="Global Scholarship Network"
-        description="Explore NextScholar's worldwide scholarship network spanning 50+ countries and 150+ universities. Find opportunities near you."
+        description="Explore NextScholar's global scholarship network across 40+ countries. Find fully funded study abroad opportunities worldwide."
         canonical="/global-network"
       />
       <Navbar />
