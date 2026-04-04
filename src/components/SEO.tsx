@@ -10,14 +10,14 @@ interface SEOProps {
 }
 
 const SITE_NAME = "NextScholar";
-const BASE_URL = "https://nextscholar.com";
+const BASE_URL = "https://thenextscholar.lovable.app";
 
 export function SEO({
   title,
   description,
   canonical,
   type = "website",
-  image = "/hero-image.jpg",
+  image = "/og-image.jpg",
   noindex = false,
 }: SEOProps) {
   const fullTitle = title === SITE_NAME ? title : `${title} | ${SITE_NAME}`;
@@ -36,6 +36,7 @@ export function SEO({
       <meta property="og:type" content={type} />
       <meta property="og:image" content={imageUrl} />
       {canonicalUrl && <meta property="og:url" content={canonicalUrl} />}
+      <meta property="og:site_name" content={SITE_NAME} />
 
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:title" content={fullTitle} />

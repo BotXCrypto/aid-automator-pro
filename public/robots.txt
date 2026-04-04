@@ -13,4 +13,4 @@ Allow: /
 User-agent: *
 Allow: /
 
-Sitemap: https://nextscholar.com/sitemap.xml
+Sitemap: https://thenextscholar.lovable.app/sitemap.xml
