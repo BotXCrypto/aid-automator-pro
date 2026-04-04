@@ -154,7 +154,8 @@ const Index = () => {
               </Link>
             </div>
             <div className="flex items-center justify-center order-first lg:order-last">
-              <InteractiveGlobe
+              <Suspense fallback={<div className="w-full max-w-[280px] sm:max-w-[350px] lg:max-w-[420px] aspect-square bg-primary-foreground/5 rounded-full animate-pulse" />}>
+                <InteractiveGlobe
                 className="w-full max-w-[280px] sm:max-w-[350px] lg:max-w-[420px] aspect-square"
                 size={420}
                 dotColor="rgba(100, 220, 200, ALPHA)"
