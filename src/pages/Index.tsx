@@ -13,7 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, BookOpen, GraduationCap, Newspaper, Globe, ArrowRight } from "lucide-react";
-import { InteractiveGlobe } from "@/components/ui/interactive-globe";
+import { lazy, Suspense } from "react";
+const InteractiveGlobe = lazy(() => import("@/components/ui/interactive-globe").then(m => ({ default: m.InteractiveGlobe })));
 import { useRef, useCallback } from "react";
 
 function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
