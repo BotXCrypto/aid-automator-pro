@@ -102,7 +102,7 @@ const Index = () => {
             "@context": "https://schema.org",
             "@type": "Organization",
             name: "NextScholar",
-            url: "https://nextscholar.com",
+            url: "https://thenextscholar.lovable.app",
             description: "Global platform connecting students with fully funded scholarships, internships, and education opportunities worldwide.",
             sameAs: [],
             potentialAction: {
