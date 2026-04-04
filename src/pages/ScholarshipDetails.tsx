@@ -9,6 +9,7 @@ import { SEO } from "@/components/SEO";
 import { api } from "@/services/api";
 import type { Scholarship } from "@/components/ScholarshipCard";
 import { CommentSection } from "@/components/CommentSection";
+import { PageBreadcrumb } from "@/components/PageBreadcrumb";
 import { 
   Calendar, 
   MapPin, 
