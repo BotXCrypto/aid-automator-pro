@@ -7,6 +7,7 @@ import { SEO } from "@/components/SEO";
 import { api } from "@/services/api";
 import type { Scholarship } from "@/components/ScholarshipCard";
 import { Briefcase } from "lucide-react";
+import { PageBreadcrumb } from "@/components/PageBreadcrumb";
 
 export default function Jobs() {
   const [selectedCountry, setSelectedCountry] = useState("all");
