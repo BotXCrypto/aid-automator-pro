@@ -9,6 +9,7 @@ import type { Scholarship } from "@/components/ScholarshipCard";
 import { Input } from "@/components/ui/input";
 import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from "@/components/ui/pagination";
 import { Search } from "lucide-react";
+import { PageBreadcrumb } from "@/components/PageBreadcrumb";
 
 export default function Internships() {
   const [searchQuery, setSearchQuery] = useState("");
