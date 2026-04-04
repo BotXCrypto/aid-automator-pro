@@ -107,7 +107,7 @@ const Index = () => {
             sameAs: [],
             potentialAction: {
               "@type": "SearchAction",
-              target: "https://nextscholar.com/scholarships?q={search_term_string}",
+              target: "https://thenextscholar.lovable.app/scholarships?q={search_term_string}",
               "query-input": "required name=search_term_string",
             },
           }),
