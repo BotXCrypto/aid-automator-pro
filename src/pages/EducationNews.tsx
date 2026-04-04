@@ -147,6 +147,7 @@ export default function EducationNews() {
       
       <section className="py-12 bg-muted/30">
         <div className="container px-4 mx-auto">
+          <PageBreadcrumb items={[{ label: "Home", href: "/" }, { label: "Education News" }]} />
           {/* Header */}
           <div className="text-center mb-12">
             <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-4">

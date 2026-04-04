@@ -148,10 +148,11 @@ export default function ScholarshipDetails() {
       
       <article className="py-12">
         <div className="container mx-auto px-4 max-w-4xl">
-          <Link to="/" className="inline-flex items-center text-primary hover:text-secondary transition-colors mb-6">
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Scholarships
-          </Link>
+          <PageBreadcrumb items={[
+            { label: "Home", href: "/" },
+            { label: "Scholarships", href: "/scholarships" },
+            { label: scholarship.title }
+          ]} />
 
           <div className="bg-card rounded-2xl shadow-strong p-8 mb-6">
             <div className="flex flex-wrap gap-2 mb-4">
