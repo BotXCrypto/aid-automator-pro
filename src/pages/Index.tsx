@@ -13,7 +13,8 @@ import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Sparkles, BookOpen, GraduationCap, Newspaper, Globe, ArrowRight } from "lucide-react";
-import { InteractiveGlobe } from "@/components/ui/interactive-globe";
+import { lazy, Suspense } from "react";
+const InteractiveGlobe = lazy(() => import("@/components/ui/interactive-globe").then(m => ({ default: m.InteractiveGlobe })));
 import { useRef, useCallback } from "react";
 
 function AnimatedCounter({ target, suffix = "", duration = 2000 }: { target: number; suffix?: string; duration?: number }) {
@@ -102,12 +103,12 @@ const Index = () => {
             "@context": "https://schema.org",
             "@type": "Organization",
             name: "NextScholar",
-            url: "https://nextscholar.com",
+            url: "https://thenextscholar.lovable.app",
             description: "Global platform connecting students with fully funded scholarships, internships, and education opportunities worldwide.",
             sameAs: [],
             potentialAction: {
               "@type": "SearchAction",
-              target: "https://nextscholar.com/scholarships?q={search_term_string}",
+              target: "https://thenextscholar.lovable.app/scholarships?q={search_term_string}",
               "query-input": "required name=search_term_string",
             },
           }),
@@ -153,14 +154,16 @@ const Index = () => {
               </Link>
             </div>
             <div className="flex items-center justify-center order-first lg:order-last">
-              <InteractiveGlobe
-                className="w-full max-w-[280px] sm:max-w-[350px] lg:max-w-[420px] aspect-square"
-                size={420}
-                dotColor="rgba(100, 220, 200, ALPHA)"
-                arcColor="hsla(174, 100%, 52%, 0.5)"
-                markerColor="hsla(174, 100%, 62%, 1)"
-                autoRotateSpeed={0.003}
-              />
+              <Suspense fallback={<div className="w-full max-w-[280px] sm:max-w-[350px] lg:max-w-[420px] aspect-square bg-primary-foreground/5 rounded-full animate-pulse" />}>
+                <InteractiveGlobe
+                  className="w-full max-w-[280px] sm:max-w-[350px] lg:max-w-[420px] aspect-square"
+                  size={420}
+                  dotColor="rgba(100, 220, 200, ALPHA)"
+                  arcColor="hsla(174, 100%, 52%, 0.5)"
+                  markerColor="hsla(174, 100%, 62%, 1)"
+                  autoRotateSpeed={0.003}
+                />
+              </Suspense>
             </div>
           </div>
         </div>
