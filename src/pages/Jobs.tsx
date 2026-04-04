@@ -43,6 +43,7 @@ export default function Jobs() {
 
       <section className="py-12">
         <div className="container mx-auto px-4">
+          <PageBreadcrumb items={[{ label: "Home", href: "/" }, { label: "Jobs" }]} />
           <div className="text-center mb-10">
             <div className="inline-flex items-center gap-2 bg-primary/10 text-primary rounded-full px-4 py-1.5 mb-4">
               <Briefcase className="w-4 h-4" />

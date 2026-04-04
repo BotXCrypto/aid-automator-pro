@@ -83,6 +83,7 @@ export default function Internships() {
 
       <section className="py-12 bg-muted/30">
         <div className="container px-4 mx-auto">
+          <PageBreadcrumb items={[{ label: "Home", href: "/" }, { label: "Internships" }]} />
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
             Internships
           </h1>

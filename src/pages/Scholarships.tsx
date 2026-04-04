@@ -96,6 +96,7 @@ export default function Scholarships() {
 
       <section className="py-12 bg-muted/30">
         <div className="container px-4 mx-auto">
+          <PageBreadcrumb items={[{ label: "Home", href: "/" }, { label: "Scholarships" }]} />
           <h1 className="text-4xl md:text-5xl font-heading font-bold text-foreground mb-6">
             All Scholarships
           </h1>
