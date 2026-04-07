@@ -10,6 +10,7 @@ import Scholarships from "./pages/Scholarships";
 import Internships from "./pages/Internships";
 import Jobs from "./pages/Jobs";
 import ScholarshipDetails from "./pages/ScholarshipDetails";
+import CountryScholarships from "./pages/CountryScholarships";
 import GuideDetails from "./pages/GuideDetails";
 import EducationNews from "./pages/EducationNews";
 import Submit from "./pages/Submit";
@@ -38,6 +39,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/scholarships" element={<Scholarships />} />
+            <Route path="/scholarships/:country" element={<CountryScholarships />} />
             <Route path="/internships" element={<Internships />} />
             <Route path="/jobs" element={<Jobs />} />
             <Route path="/scholarship/:id" element={<ScholarshipDetails />} />

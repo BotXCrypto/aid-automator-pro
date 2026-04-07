@@ -17,43 +17,50 @@ import {
   DollarSign, 
   ExternalLink,
   Share2,
-  ArrowLeft,
   Facebook,
   Send,
   Twitter,
   MessageCircle
 } from "lucide-react";
 
+const categoryConfig: Record<string, { label: string; plural: string; path: string }> = {
+  scholarship: { label: "Scholarship", plural: "Scholarships", path: "/scholarships" },
+  internship: { label: "Internship", plural: "Internships", path: "/internships" },
+  job: { label: "Job", plural: "Jobs", path: "/jobs" },
+  news: { label: "News", plural: "Education News", path: "/news" },
+};
+
 export default function ScholarshipDetails() {
   const { id } = useParams();
-  const [scholarship, setScholarship] = useState<Scholarship | null>(null);
+  const [post, setPost] = useState<Scholarship | null>(null);
   const [loading, setLoading] = useState(true);
-  const [similarScholarships, setSimilarScholarships] = useState<Scholarship[]>([]);
+  const [similarPosts, setSimilarPosts] = useState<Scholarship[]>([]);
 
   useEffect(() => {
-    const fetchScholarshipDetails = async () => {
+    const fetchDetails = async () => {
       if (!id) return;
       try {
         setLoading(true);
-        const allScholarships = await api.getScholarships();
-        const found = allScholarships.find(s => s.id === id);
-        setScholarship(found || null);
+        const found = await api.getPostById(id);
+        setPost(found);
 
         if (found) {
-          const similar = allScholarships
+          const category = found.category || "scholarship";
+          const allInCategory = await api.getPostsByCategory(category);
+          const similar = allInCategory
             .filter(s => s.id !== id && (s.country === found.country || s.degree === found.degree))
             .slice(0, 3);
-          setSimilarScholarships(similar);
+          setSimilarPosts(similar);
         }
       } catch (err) {
-        console.error("Failed to fetch scholarship details:", err);
-        setScholarship(null);
+        console.error("Failed to fetch post details:", err);
+        setPost(null);
       } finally {
         setLoading(false);
       }
     };
 
-    fetchScholarshipDetails();
+    fetchDetails();
   }, [id]);
 
   if (loading) {
@@ -61,23 +68,23 @@ export default function ScholarshipDetails() {
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="container mx-auto px-4 py-20 text-center">
-          <p className="text-lg text-muted-foreground">Loading scholarship details...</p>
+          <p className="text-lg text-muted-foreground">Loading details...</p>
         </div>
         <Footer />
       </div>
     );
   }
 
-  if (!scholarship) {
+  if (!post) {
     return (
       <div className="min-h-screen bg-background">
         <Navbar />
         <div className="container mx-auto px-4 py-20 text-center">
           <h1 className="text-4xl font-heading font-bold text-foreground mb-4">
-            Scholarship Not Found
+            Post Not Found
           </h1>
           <p className="text-lg text-muted-foreground mb-6">
-            The scholarship you're looking for doesn't exist or has been removed.
+            The post you're looking for doesn't exist or has been removed.
           </p>
           <Link to="/scholarships">
             <Button size="lg">View All Scholarships</Button>
@@ -88,8 +95,11 @@ export default function ScholarshipDetails() {
     );
   }
 
+  const category = post.category || "scholarship";
+  const config = categoryConfig[category] || categoryConfig.scholarship;
+
   const shareUrl = window.location.href;
-  const shareText = `Check out this scholarship: ${scholarship.title}`;
+  const shareText = `Check out this ${config.label.toLowerCase()}: ${post.title}`;
 
   const handleShare = (platform: string) => {
     let url = "";
@@ -113,34 +123,33 @@ export default function ScholarshipDetails() {
   return (
     <div className="min-h-screen bg-background">
       <SEO
-        title={scholarship.title}
-        description={`${scholarship.funding} ${scholarship.degree} scholarship at ${scholarship.university}, ${scholarship.country}. Deadline: ${new Date(scholarship.deadline).toLocaleDateString()}. ${scholarship.description?.slice(0, 100) || ""}`}
-        canonical={`/scholarships/${id}`}
+        title={post.title}
+        description={`${post.funding} ${post.degree} ${config.label.toLowerCase()} at ${post.university}, ${post.country}. Deadline: ${post.deadline ? new Date(post.deadline).toLocaleDateString() : "N/A"}. ${post.description?.slice(0, 100) || ""}`}
+        canonical={`/scholarship/${id}`}
         type="article"
       />
-      {/* JSON-LD Structured Data */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "EducationalOccupationalProgram",
-            name: scholarship.title,
-            description: scholarship.description,
+            name: post.title,
+            description: post.description,
             provider: {
               "@type": "EducationalOrganization",
-              name: scholarship.university,
-              address: { "@type": "PostalAddress", addressCountry: scholarship.country },
+              name: post.university,
+              address: { "@type": "PostalAddress", addressCountry: post.country },
             },
-            educationalProgramMode: scholarship.degree,
+            educationalProgramMode: post.degree,
             offers: {
               "@type": "Offer",
-              category: scholarship.funding,
-              availability: new Date(scholarship.deadline) > new Date()
+              category: post.funding,
+              availability: post.deadline && new Date(post.deadline) > new Date()
                 ? "https://schema.org/InStock"
                 : "https://schema.org/SoldOut",
             },
-            applicationDeadline: scholarship.deadline,
+            applicationDeadline: post.deadline,
           }),
         }}
       />
@@ -150,71 +159,92 @@ export default function ScholarshipDetails() {
         <div className="container mx-auto px-4 max-w-4xl">
           <PageBreadcrumb items={[
             { label: "Home", href: "/" },
-            { label: "Scholarships", href: "/scholarships" },
-            { label: scholarship.title }
+            { label: config.plural, href: config.path },
+            { label: post.title }
           ]} />
 
           <div className="bg-card rounded-2xl shadow-strong p-8 mb-6">
             <div className="flex flex-wrap gap-2 mb-4">
-              {scholarship.featured && (
+              {post.featured && (
                 <Badge className="bg-secondary text-secondary-foreground">Featured</Badge>
               )}
-              <Badge className="bg-primary text-primary-foreground">New</Badge>
+              <Badge className="bg-primary text-primary-foreground">{config.label}</Badge>
             </div>
 
             <h1 className="text-4xl font-heading font-bold text-foreground mb-4">
-              {scholarship.title}
+              {post.title}
             </h1>
 
             <p className="text-xl text-muted-foreground mb-6">
-              {scholarship.university}
+              {post.university}
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
-              <div className="flex items-center text-foreground">
-                <MapPin className="w-5 h-5 mr-3 text-primary" />
-                <span>{scholarship.country}</span>
-              </div>
-              <div className="flex items-center text-foreground">
-                <GraduationCap className="w-5 h-5 mr-3 text-primary" />
-                <span>{scholarship.degree}</span>
-              </div>
-              <div className="flex items-center text-foreground">
-                <DollarSign className="w-5 h-5 mr-3 text-secondary" />
-                <span>{scholarship.funding}</span>
-              </div>
-              <div className="flex items-center text-foreground">
-                <Calendar className="w-5 h-5 mr-3 text-destructive" />
-                <span>Deadline: {new Date(scholarship.deadline).toLocaleDateString()}</span>
-              </div>
+              {post.country && (
+                <div className="flex items-center text-foreground">
+                  <MapPin className="w-5 h-5 mr-3 text-primary" />
+                  <span>{post.country}</span>
+                </div>
+              )}
+              {post.degree && (
+                <div className="flex items-center text-foreground">
+                  <GraduationCap className="w-5 h-5 mr-3 text-primary" />
+                  <span>{post.degree}</span>
+                </div>
+              )}
+              {post.funding && (
+                <div className="flex items-center text-foreground">
+                  <DollarSign className="w-5 h-5 mr-3 text-secondary" />
+                  <span>{post.funding}</span>
+                </div>
+              )}
+              {post.deadline && (
+                <div className="flex items-center text-foreground">
+                  <Calendar className="w-5 h-5 mr-3 text-destructive" />
+                  <span>Deadline: {new Date(post.deadline).toLocaleDateString()}</span>
+                </div>
+              )}
             </div>
 
             <div className="prose max-w-none mb-8">
-              <h2 className="text-2xl font-heading font-semibold text-foreground mb-4">About This Scholarship</h2>
-              <p className="text-foreground mb-6">{scholarship.description}</p>
+              <h2 className="text-2xl font-heading font-semibold text-foreground mb-4">About This {config.label}</h2>
+              <p className="text-foreground mb-6">{post.description}</p>
 
-              <h3 className="text-xl font-heading font-semibold text-foreground mb-3">Eligibility</h3>
-              <ul className="list-disc list-inside text-foreground mb-6 space-y-2">
-                <li>International students from all countries are eligible</li>
-                <li>Strong academic record required</li>
-                <li>English language proficiency (TOEFL/IELTS may be required)</li>
-                <li>Meet the admission requirements of the university</li>
-              </ul>
+              {(category === "scholarship" || category === "internship") && (
+                <>
+                  <h3 className="text-xl font-heading font-semibold text-foreground mb-3">Eligibility</h3>
+                  <ul className="list-disc list-inside text-foreground mb-6 space-y-2">
+                    <li>International students from all countries are eligible</li>
+                    <li>Strong academic record required</li>
+                    <li>English language proficiency (TOEFL/IELTS may be required)</li>
+                    <li>Meet the admission requirements of the university</li>
+                  </ul>
 
-              <h3 className="text-xl font-heading font-semibold text-foreground mb-3">Benefits</h3>
-              <ul className="list-disc list-inside text-foreground mb-6 space-y-2">
-                <li>Full tuition fee coverage</li>
-                <li>Monthly living stipend</li>
-                <li>Health insurance</li>
-                <li>Travel allowance</li>
-              </ul>
+                  <h3 className="text-xl font-heading font-semibold text-foreground mb-3">Benefits</h3>
+                  <ul className="list-disc list-inside text-foreground mb-6 space-y-2">
+                    <li>Full tuition fee coverage</li>
+                    <li>Monthly living stipend</li>
+                    <li>Health insurance</li>
+                    <li>Travel allowance</li>
+                  </ul>
+                </>
+              )}
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 mb-6">
-              <Button size="lg" className="flex-1 bg-primary hover:bg-primary/90">
-                Apply Now
-                <ExternalLink className="w-4 h-4 ml-2" />
-              </Button>
+              {post.link ? (
+                <a href={post.link} target="_blank" rel="noopener noreferrer" className="flex-1">
+                  <Button size="lg" className="w-full bg-primary hover:bg-primary/90">
+                    Apply Now
+                    <ExternalLink className="w-4 h-4 ml-2" />
+                  </Button>
+                </a>
+              ) : (
+                <Button size="lg" className="flex-1 bg-primary hover:bg-primary/90">
+                  Apply Now
+                  <ExternalLink className="w-4 h-4 ml-2" />
+                </Button>
+              )}
               <Button size="lg" variant="outline" className="flex-1">
                 Save for Later
               </Button>
@@ -223,57 +253,35 @@ export default function ScholarshipDetails() {
             <div className="border-t border-border pt-6">
               <h3 className="text-lg font-heading font-semibold text-foreground mb-4 flex items-center">
                 <Share2 className="w-5 h-5 mr-2" />
-                Share This Scholarship
+                Share This {config.label}
               </h3>
               <div className="flex flex-wrap gap-3">
-                <Button
-                  variant="outline"
-                  onClick={() => handleShare("facebook")}
-                  className="hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all"
-                >
-                  <Facebook className="w-4 h-4 mr-2" />
-                  Facebook
+                <Button variant="outline" onClick={() => handleShare("facebook")} className="hover:bg-[#1877F2] hover:text-white hover:border-[#1877F2] transition-all">
+                  <Facebook className="w-4 h-4 mr-2" /> Facebook
                 </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => handleShare("twitter")}
-                  className="hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-all"
-                >
-                  <Twitter className="w-4 h-4 mr-2" />
-                  X (Twitter)
+                <Button variant="outline" onClick={() => handleShare("twitter")} className="hover:bg-[#1DA1F2] hover:text-white hover:border-[#1DA1F2] transition-all">
+                  <Twitter className="w-4 h-4 mr-2" /> X (Twitter)
                 </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => handleShare("telegram")}
-                  className="hover:bg-[#0088cc] hover:text-white hover:border-[#0088cc] transition-all"
-                >
-                  <Send className="w-4 h-4 mr-2" />
-                  Telegram
+                <Button variant="outline" onClick={() => handleShare("telegram")} className="hover:bg-[#0088cc] hover:text-white hover:border-[#0088cc] transition-all">
+                  <Send className="w-4 h-4 mr-2" /> Telegram
                 </Button>
-                <Button
-                  variant="outline"
-                  onClick={() => handleShare("whatsapp")}
-                  className="hover:bg-[#25D366] hover:text-white hover:border-[#25D366] transition-all"
-                >
-                  <MessageCircle className="w-4 h-4 mr-2" />
-                  WhatsApp
+                <Button variant="outline" onClick={() => handleShare("whatsapp")} className="hover:bg-[#25D366] hover:text-white hover:border-[#25D366] transition-all">
+                  <MessageCircle className="w-4 h-4 mr-2" /> WhatsApp
                 </Button>
               </div>
             </div>
           </div>
 
-          {/* Comments Section */}
           <div className="mb-8">
             <CommentSection postId={id!} />
           </div>
 
-          {/* Similar Scholarships Section */}
-          {similarScholarships.length > 0 && (
+          {similarPosts.length > 0 && (
             <div className="mt-12">
-              <h2 className="text-3xl font-heading font-bold text-foreground mb-6">Similar Scholarships</h2>
+              <h2 className="text-3xl font-heading font-bold text-foreground mb-6">Similar {config.plural}</h2>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                {similarScholarships.map((similarScholarship) => (
-                  <ScholarshipCard key={similarScholarship.id} scholarship={similarScholarship} />
+                {similarPosts.map((p) => (
+                  <ScholarshipCard key={p.id} scholarship={p} />
                 ))}
               </div>
             </div>
@@ -285,4 +293,3 @@ export default function ScholarshipDetails() {
     </div>
   );
 }
-

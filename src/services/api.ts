@@ -173,5 +173,68 @@ export const api = {
       console.error("Error fetching jobs:", error);
       return [];
     }
+  },
+
+  getPostsByCountry: async (country: string): Promise<Scholarship[]> => {
+    try {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("*")
+        .eq("status", "approved")
+        .eq("category", "scholarship")
+        .ilike("country", country)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      return (data || []).map((p: any) => ({
+        id: p.id,
+        title: p.title,
+        university: p.university || "",
+        country: p.country || "",
+        degree: humanizeDegree(p.degree),
+        deadline: p.deadline || "",
+        funding: humanizeFunding(p.funding),
+        description: p.description || "",
+        featured: !!p.featured,
+        urgent: !!p.urgent,
+        category: p.category || "scholarship",
+        link: p.link || "",
+      } as Scholarship));
+    } catch (error) {
+      console.error("Error fetching scholarships by country:", error);
+      return [];
+    }
+  },
+
+  getPostsByCategory: async (category: string): Promise<Scholarship[]> => {
+    try {
+      const { data, error } = await supabase
+        .from("posts")
+        .select("*")
+        .eq("status", "approved")
+        .eq("category", category as any)
+        .order("created_at", { ascending: false });
+
+      if (error) throw error;
+
+      return (data || []).map((p: any) => ({
+        id: p.id,
+        title: p.title,
+        university: p.university || "",
+        country: p.country || "",
+        degree: humanizeDegree(p.degree),
+        deadline: p.deadline || "",
+        funding: humanizeFunding(p.funding),
+        description: p.description || "",
+        featured: !!p.featured,
+        urgent: !!p.urgent,
+        category: p.category || category,
+        link: p.link || "",
+      } as Scholarship));
+    } catch (error) {
+      console.error(`Error fetching ${category}:`, error);
+      return [];
+    }
   }
 };
