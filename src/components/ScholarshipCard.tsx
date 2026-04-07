@@ -15,6 +15,8 @@ export interface Scholarship {
   description: string;
   featured?: boolean;
   urgent?: boolean;
+  category?: string;
+  link?: string;
 }
 
 interface ScholarshipCardProps {
