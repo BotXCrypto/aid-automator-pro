@@ -46,6 +46,8 @@ export const api = {
         description: p.description || "",
         featured: !!p.featured,
         urgent: !!p.urgent,
+        category: p.category || "scholarship",
+        link: p.link || "",
       } as Scholarship));
     } catch (error) {
       console.error("Error fetching scholarships:", error);
@@ -75,6 +77,8 @@ export const api = {
         description: p.description || "",
         featured: !!p.featured,
         urgent: !!p.urgent,
+        category: p.category || "news",
+        link: p.link || "",
       } as Scholarship));
     } catch (error) {
       console.error("Error fetching news:", error);
@@ -99,6 +103,8 @@ export const api = {
         description: data.description || "",
         featured: !!data.featured,
         urgent: !!data.urgent,
+        category: data.category || "scholarship",
+        link: data.link || "",
       } as Scholarship;
     } catch (error) {
       console.error("Error fetching post:", error);
@@ -129,6 +135,8 @@ export const api = {
         description: p.description || "",
         featured: !!p.featured,
         urgent: !!p.urgent,
+        category: p.category || "internship",
+        link: p.link || "",
       } as Scholarship));
     } catch (error) {
       console.error("Error fetching internships:", error);
@@ -158,6 +166,8 @@ export const api = {
         description: p.description || "",
         featured: !!p.featured,
         urgent: !!p.urgent,
+        category: p.category || "job",
+        link: p.link || "",
       } as Scholarship));
     } catch (error) {
       console.error("Error fetching jobs:", error);
